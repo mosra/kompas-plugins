@@ -18,3 +18,7 @@ if(BUILD_TESTS)
     endif()
 
 endif()
+
+install(DIRECTORY src/ DESTINATION ${MAP2X_PLUGINS_INCLUDE_INSTALL_DIR}
+                FILES_MATCHING PATTERN "*.h"
+                PATTERN "*/Test" EXCLUDE)
