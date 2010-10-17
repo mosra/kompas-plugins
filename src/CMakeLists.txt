@@ -6,3 +6,5 @@ include_directories(${MAP2X_CORE_INCLUDE_DIR} ${MAP2X_PLUGINS_INCLUDE_DIR})
 if(QT_PLUGINS)
     find_package(Qt4 REQUIRED)
 endif()
+
+add_subdirectory(WorldMap1689TileModel)

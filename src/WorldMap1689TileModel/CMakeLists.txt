@@ -1,0 +1,1 @@
+map2x_add_plugin(WorldMap1689TileModel ${MAP2X_PLUGINS_TILEMODEL_INSTALL_DIR} WorldMap1689TileModel.conf WorldMap1689TileModel.cpp)
