@@ -24,13 +24,70 @@
 namespace Map2X { namespace Plugins {
 
 /**
- * @brief Plugin for stereographic map projection
- *
- * For maps divided into two hemispheres with poles on top and bottom. There
- * can be set
+@brief Plugin for stereographic map projection
+
+Simplified for maps divided into two hemispheres with poles on top and
+bottom, western hemisphere on left, eastern on right. Customizable shift and
+stretch, central meridian (on which are the hemispheres split) and gap
+between hemispheres.
+@section StereographicProjection_fromWgs84 Converting from WGS84 coordinates
+Conversion is basically the same for both hemispheres. After removing
+central meridian shift (so the hemispheres are split at 0° meridian), left
+hemisphere is in range @f$ [ - \pi ; 0 ] @f$ and right in @f$ [ 0 ; \pi ] @f$.
+The coordinates are converted to range @f$ [ - {\pi \over 2} ; {\pi \over 2} ] @f$
+for both hemispheres. Then they need to be converted from latitude / longtitude
+to coordinates of a point on a sphere @f$ (x, y, z) @f$. Longtitude will be on
+@f$ x @f$ and latitude on @f$ y @f$:
+@f[
+    \begin{array}{lcl}
+        x & = & \sin longtitude \cos latitude       \\
+        y & = & - \sin latitude                     \\
+        z & = & - \cos longtitude \cos latitude
+    \end{array}
+@f]
+Conversion to plane coordinates (according to
+@link "http://en.wikipedia.org/wiki/Stereographic_projection" Wikipedia@endlink):
+@f[
+    (X, Y) = \left( \frac{x}{1 - z}, \frac{y}{1 - z} \right)
+@f]
+Coordinates are in range @f$ [ -1 ; 1 ] @f$, so X coordinates are converted to
+@f$ [ 0; 0.5 ] @f$ if the longtitude was in left and @f$ [ 0.5; 1 ] @f$ if it
+was in right hemisphere, Y coordinates are converted to range @f$ [ 0 ; 1 ] @f$.
+Last step is to apply shift, stretch and gap between hemispheres.
+@section StereographicProjection_toWgs84 Converting to WGS84 coordinates
+First step is to remove shift, stretch and gap between hemispheres, then
+converting both Y coordinates from @f$ [ 0 ; 1 ] @f$ and X coordinates from
+@f$ [ 0 ; 0.5 ] @f$ (for left hemisphere) or @f$ [ 0.5 ; 1 ] @f$ (for right
+hemisphere) to @f$ [ -1 ; 1 ] @f$. Then they are converted to
+coordinates of a point on a sphere (according to
+@link "http://en.wikipedia.org/wiki/Stereographic_projection" Wikipedia@endlink):
+@f[
+    (x, y, z) = \left(
+        \frac{2X}{1 + X^2 + Y^2},
+        \frac{2Y}{1 + X^2 + Y^2},
+        \frac{-1 + X^2 + Y^2}{1 + X^2 + Y^2}
+    \right)
+@f]
+Because on the map there are only two circles with actual map data and all other
+area is blank, invalid coordinates must be returned for these areas. When
+z coordinate is greater than zero, it indicates that the point is from opposite
+hemisphere than the displayed one, so the function returns invalid coordinates.
+
+Conversion of @f$ (x, y, z) @f$ coordinates to latitude and longtitude:
+@f[
+    \begin{array}{lcl}
+        latitude & = & \arcsin y              \\
+        longtitude & = & \arcsin {x \over \sqrt {x^2 + z^2}}
+    \end{array}
+@f]
+Latitude is in range @f$ [ - {\pi \over 2} ; {\pi \over 2} ] @f$, which is what is
+needed, but longtitude needs to be converted to @f$ [ - \pi ; 0 ] @f$ for left
+hemisphere or @f$ [ 0 ; \pi ] @f$ for right hemisphere. Last step is to apply
+central meridian shift and get longtitude into limits, if needed.
  */
 class StereographicProjection: public Core::AbstractProjection {
     public:
+        /** @copydoc Map2X::Core::AbstractProjection::AbstractProjection */
         StereographicProjection(PluginManager::AbstractPluginManager* manager = 0, const std::string& plugin = ""):
             AbstractProjection(manager, plugin), stretch(1, 1), shift(0, 0), gap(0), centralMeridian(0) {}
 
