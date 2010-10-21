@@ -7,4 +7,9 @@ if(QT_PLUGINS)
     find_package(Qt4 REQUIRED)
 endif()
 
+add_subdirectory(StereographicProjection)
 add_subdirectory(WorldMap1689TileModel)
+
+if(BUILD_TESTS)
+    enable_testing()
+endif()
