@@ -54,13 +54,13 @@ Coords<double> StereographicProjection::fromWgs84(const Wgs84Coords& coords) con
     }
 
     /* Calculate point on a sphere from latitude and longtitude */
-    double z = -sin(latitude);
-    double y = -cos(longtitude)*cos(latitude);
     double x = sin(longtitude)*cos(latitude);
+    double y = -sin(latitude);
+    double z = -cos(longtitude)*cos(latitude);
 
     /* Calculate point on a surface */
-    _coords.x += (x/(1 - y))/4;
-    _coords.y = 0.5 + (z/(1 - y))/2;
+    _coords.x += (x/(1 - z))/4;
+    _coords.y = 0.5 + (y/(1 - z))/2;
 
     /* Apply stretch */
     _coords.x *= stretch.x;
@@ -115,16 +115,16 @@ Wgs84Coords StereographicProjection::toWgs84(const Coords<double>& coords) const
     /* Calculate x, y, z coordinates of point on a sphere */
     double divisor = 1+_coords.x*_coords.x+_coords.y*_coords.y;
     double x = 2*_coords.x/divisor;
-    double y = 1 - 2/divisor;
-    double z = 2*_coords.y/divisor;
+    double y = 2*_coords.y/divisor;
+    double z = 1 - 2/divisor;
 
     /* Coordinates from opposite hemisphere, no map available, return
         invalid coordinates */
-    if(y > 0) return Wgs84Coords();
+    if(z > 0) return Wgs84Coords();
 
     /* Calculate latitude and longtitude, apply central meridian */
-    double latitude = asin(z);
-    longtitude += asin(x/sqrt(x*x+y*y))+centralMeridian;
+    double latitude = asin(y);
+    longtitude += asin(x/sqrt(x*x+z*z))+centralMeridian;
 
     /* Get it into limits */
     if(abs(longtitude) > PI) longtitude = -longtitude-PI;
