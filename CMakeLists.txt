@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 2.6)
 
 project(Map2XPlugins)
 
-add_subdirectory(src)
-
 option(BUILD_TESTS "Build unit tests (requires Qt4)." OFF)
 option(QT_PLUGINS "Build also plugins for Map2X-Qt (requires Qt4)." ON)
 
@@ -18,6 +16,8 @@ if(BUILD_TESTS)
     endif()
 
 endif()
+
+add_subdirectory(src)
 
 install(DIRECTORY src/ DESTINATION ${MAP2X_PLUGINS_INCLUDE_INSTALL_DIR}
                 FILES_MATCHING PATTERN "*.h"
