@@ -13,7 +13,7 @@
     GNU Lesser General Public License version 3 for more details.
 */
 
-#include "AbstractTileModel.h"
+#include "AbstractRasterModel.h"
 
 #include "constants.h"
 #include "StereographicProjection/StereographicProjection.h"
@@ -23,9 +23,9 @@ using namespace Map2X::Core;
 
 namespace Map2X { namespace Plugins {
 
-class WorldMap1689TileModel: public AbstractTileModel {
+class WorldMap1689RasterModel: public AbstractRasterModel {
     public:
-        WorldMap1689TileModel(PluginManager::AbstractPluginManager* manager, const std::string& plugin): AbstractTileModel(manager, plugin) {
+        WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const std::string& plugin): AbstractRasterModel(manager, plugin) {
             /*
                 width:  2280
                 height: 1967
@@ -79,5 +79,5 @@ class WorldMap1689TileModel: public AbstractTileModel {
 
 }}
 
-PLUGIN_REGISTER(Map2X::Plugins::WorldMap1689TileModel,
-                "cz.mosra.Map2X.Core.AbstractTileModel/0.1")
+PLUGIN_REGISTER(Map2X::Plugins::WorldMap1689RasterModel,
+                "cz.mosra.Map2X.Core.AbstractRasterModel/0.1")

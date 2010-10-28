@@ -1,0 +1,1 @@
+map2x_add_plugin(WorldMap1689RasterModel ${MAP2X_PLUGINS_RASTERMODEL_INSTALL_DIR} WorldMap1689RasterModel.conf WorldMap1689RasterModel.cpp)

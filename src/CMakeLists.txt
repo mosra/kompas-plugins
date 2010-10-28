@@ -10,7 +10,7 @@ if(QT_PLUGINS)
 endif()
 
 add_subdirectory(StereographicProjection)
-add_subdirectory(WorldMap1689TileModel)
+add_subdirectory(WorldMap1689RasterModel)
 
 if(BUILD_TESTS)
     enable_testing()
