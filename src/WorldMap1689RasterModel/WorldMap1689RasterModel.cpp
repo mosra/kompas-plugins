@@ -13,7 +13,7 @@
     GNU Lesser General Public License version 3 for more details.
 */
 
-#include "AbstractRasterModel.h"
+#include "Map2XRasterModel/Map2XRasterModel.h"
 
 #include "constants.h"
 #include "StereographicProjection/StereographicProjection.h"
@@ -23,9 +23,9 @@ using namespace Map2X::Core;
 
 namespace Map2X { namespace Plugins {
 
-class WorldMap1689RasterModel: public AbstractRasterModel {
+class WorldMap1689RasterModel: public Map2XRasterModel {
     public:
-        WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const std::string& plugin): AbstractRasterModel(manager, plugin) {
+        WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const std::string& plugin): Map2XRasterModel(manager, plugin) {
             /*
                 width:  2280
                 height: 1967
@@ -43,13 +43,13 @@ class WorldMap1689RasterModel: public AbstractRasterModel {
             _projection.setStretch(Coords<double>((2145-139)/2280.0, (1490-469)/1967.0));
         }
 
-        virtual int features() const { return LoadableFromUrl; }
+        inline virtual int features() const {
+            return Map2XRasterModel::features()|LoadableFromUrl|NonConvertableFormat;
+        }
 
         virtual const AbstractProjection* projection() const { return &_projection; }
 
         virtual TileSize tileSize() const { return TileSize(2280, 1967); }
-
-        virtual string copyright() const { return ""; }
 
         virtual vector<Zoom> zoomLevels() const {
             vector<Zoom> z;
@@ -63,10 +63,6 @@ class WorldMap1689RasterModel: public AbstractRasterModel {
             vector<string> l;
             l.push_back("Base");
             return l;
-        }
-
-        virtual vector<string> overlays() const {
-            return vector<string>();
         }
 
         inline virtual string tileUrl(const string& layer, Zoom z, const TileCoords& coords) const {
