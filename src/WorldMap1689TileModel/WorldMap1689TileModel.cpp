@@ -15,6 +15,7 @@
 
 #include "AbstractTileModel.h"
 
+#include "constants.h"
 #include "StereographicProjection/StereographicProjection.h"
 
 using namespace std;

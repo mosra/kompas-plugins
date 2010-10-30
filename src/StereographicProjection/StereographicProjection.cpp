@@ -18,7 +18,7 @@
 #include <cmath>
 #include <iostream>
 
-#include "basictypes.h"
+#include "constants.h"
 
 using namespace std;
 using namespace Map2X::Core;
