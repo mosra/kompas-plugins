@@ -46,7 +46,7 @@ to coordinates of a point on a sphere @f$ (x, y, z) @f$. Longtitude will be on
     \end{array}
 @f]
 Conversion to plane coordinates (according to
-@link "http://en.wikipedia.org/wiki/Stereographic_projection" Wikipedia@endlink):
+<a href="http://en.wikipedia.org/wiki/Stereographic_projection">Wikipedia</a>):
 @f[
     (X, Y) = \left( \frac{x}{1 - z}, \frac{y}{1 - z} \right)
 @f]
@@ -60,7 +60,7 @@ converting both Y coordinates from @f$ [ 0 ; 1 ] @f$ and X coordinates from
 @f$ [ 0 ; 0.5 ] @f$ (for left hemisphere) or @f$ [ 0.5 ; 1 ] @f$ (for right
 hemisphere) to @f$ [ -1 ; 1 ] @f$. Then they are converted to
 coordinates of a point on a sphere (according to
-@link "http://en.wikipedia.org/wiki/Stereographic_projection" Wikipedia@endlink):
+<a href="http://en.wikipedia.org/wiki/Stereographic_projection">Wikipedia</a>):
 @f[
     (x, y, z) = \left(
         \frac{2X}{1 + X^2 + Y^2},
@@ -87,7 +87,7 @@ central meridian shift and get longtitude into limits, if needed.
  */
 class StereographicProjection: public Core::AbstractProjection {
     public:
-        /** @copydoc Map2X::Core::AbstractProjection::AbstractProjection */
+        /** @copydoc Core::AbstractProjection::AbstractProjection */
         StereographicProjection(PluginManager::AbstractPluginManager* manager = 0, const std::string& plugin = ""):
             AbstractProjection(manager, plugin), stretch(1, 1), shift(0, 0), gap(0), centralMeridian(0) {}
 

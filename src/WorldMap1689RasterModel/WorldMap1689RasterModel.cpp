@@ -13,67 +13,31 @@
     GNU Lesser General Public License version 3 for more details.
 */
 
-#include "Map2XRasterModel/Map2XRasterModel.h"
-
-#include "constants.h"
-#include "StereographicProjection/StereographicProjection.h"
+#include "WorldMap1689RasterModel.h"
 
 using namespace std;
-using namespace Map2X::Core;
-
-namespace Map2X { namespace Plugins {
-
-class WorldMap1689RasterModel: public Map2XRasterModel {
-    public:
-        WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const std::string& plugin): Map2XRasterModel(manager, plugin) {
-            /*
-                width:  2280
-                height: 1967
-                left:   139
-                top:    470, 468 => 469
-                right:  2145
-                bottom: 1491, 1489 => 1490
-                gap:    0
-
-                stretch.x = (right - left)/width
-                stretch.y = (bottom - top)/height
-            */
-            _projection.setCentralMeridian(-PI/9);
-            _projection.setShift(Coords<double>(139/2280.0, 469/1967.0));
-            _projection.setStretch(Coords<double>((2145-139)/2280.0, (1490-469)/1967.0));
-        }
-
-        inline virtual int features() const {
-            return Map2XRasterModel::features()|LoadableFromUrl|NonConvertableFormat;
-        }
-
-        virtual const AbstractProjection* projection() const { return &_projection; }
-
-        virtual TileSize tileSize() const { return TileSize(2280, 1967); }
-
-        virtual vector<Zoom> zoomLevels() const {
-            vector<Zoom> z;
-            z.push_back(0);
-            return z;
-        }
-
-        virtual TileArea area() const { return TileArea(0, 0, 1, 1); }
-
-        virtual vector<string> layers() const {
-            vector<string> l;
-            l.push_back("Base");
-            return l;
-        }
-
-        inline virtual string tileUrl(const string& layer, Zoom z, const TileCoords& coords) const {
-            return "http://upload.wikimedia.org/wikipedia/commons/e/e0/World_Map_1689-smaller.jpg";
-        }
-
-    private:
-        StereographicProjection _projection;
-};
-
-}}
 
 PLUGIN_REGISTER(Map2X::Plugins::WorldMap1689RasterModel,
                 "cz.mosra.Map2X.Core.AbstractRasterModel/0.1")
+
+namespace Map2X { namespace Plugins {
+
+WorldMap1689RasterModel::WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const string& plugin): Map2XRasterModel(manager, plugin) {
+    /*
+        width:  2280
+        height: 1967
+        left:   139
+        top:    470, 468 => 469
+        right:  2145
+        bottom: 1491, 1489 => 1490
+        gap:    0
+
+        stretch.x = (right - left)/width
+        stretch.y = (bottom - top)/height
+    */
+    _projection.setCentralMeridian(-PI/9);
+    _projection.setShift(Coords<double>(139/2280.0, 469/1967.0));
+    _projection.setStretch(Coords<double>((2145-139)/2280.0, (1490-469)/1967.0));
+}
+
+}}
