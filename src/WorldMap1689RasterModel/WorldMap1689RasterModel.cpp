@@ -22,7 +22,7 @@ PLUGIN_REGISTER(Map2X::Plugins::WorldMap1689RasterModel,
 
 namespace Map2X { namespace Plugins {
 
-WorldMap1689RasterModel::WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const string& plugin): Map2XRasterModel(manager, plugin) {
+WorldMap1689RasterModel::WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const string& plugin): Map2XRasterModel(manager, plugin), areaOnline(0, 0, 1, 1) {
     /*
         width:  2280
         height: 1967
@@ -38,6 +38,10 @@ WorldMap1689RasterModel::WorldMap1689RasterModel(PluginManager::AbstractPluginMa
     _projection.setCentralMeridian(-PI/9);
     _projection.setShift(Coords<double>(139/2280.0, 469/1967.0));
     _projection.setStretch(Coords<double>((2145-139)/2280.0, (1490-469)/1967.0));
+
+    /* All zoom levels and layers for online map */
+    zoomLevelsOnline.push_back(0);
+    layersOnline.push_back("Base");
 }
 
 }}

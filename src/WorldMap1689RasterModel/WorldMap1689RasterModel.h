@@ -44,23 +44,21 @@ class WorldMap1689RasterModel: public Map2XRasterModel {
         inline virtual int features() const {
             return Map2XRasterModel::features()|LoadableFromUrl|NonConvertableFormat;
         }
-
+        virtual double zoomStep() const { return 2; }
         virtual const AbstractProjection* projection() const { return &_projection; }
-
         virtual TileSize tileSize() const { return TileSize(2280, 1967); }
 
-        virtual vector<Zoom> zoomLevels() const {
-            vector<Zoom> z;
-            z.push_back(0);
-            return z;
+        inline virtual std::vector<Core::Zoom> zoomLevels() const {
+            return online() ? zoomLevelsOnline : Map2XRasterModel::zoomLevels();
         }
-
-        virtual TileArea area() const { return TileArea(0, 0, 1, 1); }
-
-        virtual vector<string> layers() const {
-            vector<string> l;
-            l.push_back("Base");
-            return l;
+        inline virtual Core::TileArea area() const {
+            return online() ? areaOnline : Map2XRasterModel::area();
+        }
+        virtual std::vector<std::string> layers() const {
+            return online() ? layersOnline : Map2XRasterModel::layers();
+        }
+        virtual std::vector<std::string> overlays() const {
+            return online() ? overlaysOnline : Map2XRasterModel::overlays();
         }
 
         inline virtual string tileUrl(const string& layer, Zoom z, const TileCoords& coords) const {
@@ -69,6 +67,9 @@ class WorldMap1689RasterModel: public Map2XRasterModel {
 
     private:
         StereographicProjection _projection;
+        std::vector<Core::Zoom> zoomLevelsOnline;
+        Core::TileArea areaOnline;
+        std::vector<std::string> layersOnline, overlaysOnline;
 };
 
 }}
