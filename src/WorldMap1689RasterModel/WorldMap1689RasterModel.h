@@ -44,7 +44,6 @@ class WorldMap1689RasterModel: public Map2XRasterModel {
         inline virtual int features() const {
             return Map2XRasterModel::features()|LoadableFromUrl|NonConvertableFormat;
         }
-        virtual double zoomStep() const { return 2; }
         virtual const AbstractProjection* projection() const { return &_projection; }
         virtual TileSize tileSize() const { return TileSize(2280, 1967); }
 
