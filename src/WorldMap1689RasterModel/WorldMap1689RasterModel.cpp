@@ -1,13 +1,13 @@
 /*
     Copyright © 2007, 2008, 2009, 2010 Vladimír Vondruš <mosra@centrum.cz>
 
-    This file is part of Map2X.
+    This file is part of Kompas.
 
-    Map2X is free software: you can redistribute it and/or modify
+    Kompas is free software: you can redistribute it and/or modify
     it under the terms of the GNU Lesser General Public License version 3
     only, as published by the Free Software Foundation.
 
-    Map2X is distributed in the hope that it will be useful,
+    Kompas is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU Lesser General Public License version 3 for more details.
@@ -17,12 +17,12 @@
 
 using namespace std;
 
-PLUGIN_REGISTER(Map2X::Plugins::WorldMap1689RasterModel,
-                "cz.mosra.Map2X.Core.AbstractRasterModel/0.1")
+PLUGIN_REGISTER(Kompas::Plugins::WorldMap1689RasterModel,
+                "cz.mosra.Kompas.Core.AbstractRasterModel/0.1")
 
-namespace Map2X { namespace Plugins {
+namespace Kompas { namespace Plugins {
 
-WorldMap1689RasterModel::WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const string& plugin): Map2XRasterModel(manager, plugin), areaOnline(0, 0, 1, 1) {
+WorldMap1689RasterModel::WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const string& plugin): KompasRasterModel(manager, plugin), areaOnline(0, 0, 1, 1) {
     /*
         width:  2280
         height: 1967

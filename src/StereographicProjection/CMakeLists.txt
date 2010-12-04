@@ -1,4 +1,4 @@
-map2x_add_plugin(StereographicProjection ${MAP2X_PLUGINS_PROJECTION_INSTALL_DIR} StereographicProjection.conf StereographicProjection.cpp)
+kompas_add_plugin(StereographicProjection ${KOMPAS_PLUGINS_PROJECTION_INSTALL_DIR} StereographicProjection.conf StereographicProjection.cpp)
 
 if(BUILD_TESTS)
     enable_testing()

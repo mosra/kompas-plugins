@@ -1,14 +1,14 @@
 # Author: mosra <mosra@centrum.cz>
-pkgname=map2x-plugins
+pkgname=kompas-plugins
 pkgver=dev
 pkgrel=1
-pkgdesc="Plugins for Map2X navigation system"
+pkgdesc="Plugins for Kompas navigation system"
 arch=('i686' 'x86_64')
-url="http://mosra.cz/blog/map2x.php"
+url="http://mosra.cz/blog/kompas.php"
 license=('LGPLv3')
 makedepends=('cmake')
-depends=('map2x-core')
-optdepends=('map2x-qt: plugins for Qt GUI')
+depends=('kompas-core')
+optdepends=('kompas-qt: plugins for Qt GUI')
 options=(!strip)
 
 build() {

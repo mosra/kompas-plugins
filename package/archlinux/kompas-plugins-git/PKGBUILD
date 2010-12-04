@@ -1,18 +1,18 @@
 # Author: mosra <mosra@centrum.cz>
-pkgname=map2x-plugins-git
+pkgname=kompas-plugins-git
 pkgver=20101016
 pkgrel=1
-pkgdesc="Plugins for Map2X navigation system (Git version)"
+pkgdesc="Plugins for Kompas navigation system (Git version)"
 arch=('i686' 'x86_64')
-url="http://mosra.cz/blog/map2x.php"
+url="http://mosra.cz/blog/kompas.php"
 license=('LGPLv3')
 makedepends=('cmake' 'git')
-depends=('map2x-core-git')
-provides=('map2x-plugins')
-conflicts=('map2x-plugins')
+depends=('kompas-core-git')
+provides=('kompas-plugins')
+conflicts=('kompas-plugins')
 
-_gitroot="git://github.com/mosra/map2x-plugins.git"
-_gitname="map2x-plugins"
+_gitroot="git://github.com/mosra/kompas-plugins.git"
+_gitname="kompas-plugins"
 
 build() {
     cd "$srcdir"

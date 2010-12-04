@@ -1,2 +1,2 @@
-map2x_add_test(StereographicProjectionTest
-    StereographicProjectionTest.h StereographicProjectionTest.cpp Map2XCore StereographicProjectionTestLib)
+kompas_add_test(StereographicProjectionTest
+    StereographicProjectionTest.h StereographicProjectionTest.cpp KompasCore StereographicProjectionTestLib)

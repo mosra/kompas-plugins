@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(Map2XPlugins)
+project(KompasPlugins)
 
 option(BUILD_TESTS "Build unit tests (requires Qt4)." OFF)
-option(QT_PLUGINS "Build also plugins for Map2X-Qt (requires Qt4)." ON)
+option(QT_PLUGINS "Build also plugins for Kompas-Qt (requires Qt4)." ON)
 
 if(BUILD_TESTS)
     find_package(Qt4)
@@ -19,6 +19,6 @@ endif()
 
 add_subdirectory(src)
 
-install(DIRECTORY src/ DESTINATION ${MAP2X_PLUGINS_INCLUDE_INSTALL_DIR}
+install(DIRECTORY src/ DESTINATION ${KOMPAS_PLUGINS_INCLUDE_INSTALL_DIR}
                 FILES_MATCHING PATTERN "*.h"
                 PATTERN "*/Test" EXCLUDE)
