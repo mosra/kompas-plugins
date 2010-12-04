@@ -42,7 +42,7 @@ class WorldMap1689RasterModel: public Map2XRasterModel {
         WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const std::string& plugin);
 
         inline virtual int features() const {
-            return Map2XRasterModel::features()|LoadableFromUrl|NonConvertableFormat;
+            return Map2XRasterModel::features()|LoadableFromUrl|NonConvertableFormat|ConvertableCoords;
         }
         virtual const AbstractProjection* projection() const { return &_projection; }
         virtual TileSize tileSize() const { return TileSize(2280, 1967); }
