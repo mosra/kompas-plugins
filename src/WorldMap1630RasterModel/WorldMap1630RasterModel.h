@@ -1,5 +1,5 @@
-#ifndef Kompas_Plugins_WorldMap1689RasterModel_h
-#define Kompas_Plugins_WorldMap1689RasterModel_h
+#ifndef Kompas_Plugins_WorldMap1630RasterModel_h
+#define Kompas_Plugins_WorldMap1630RasterModel_h
 /*
     Copyright © 2007, 2008, 2009, 2010 Vladimír Vondruš <mosra@centrum.cz>
 
@@ -16,7 +16,7 @@
 */
 
 /** @file
- * @brief Class Kompas::Plugins::WorldMap1689RasterModel
+ * @brief Class Kompas::Plugins::WorldMap1630RasterModel
  */
 
 #include "KompasRasterModel/KompasRasterModel.h"
@@ -29,21 +29,21 @@ using namespace Kompas::Core;
 namespace Kompas { namespace Plugins {
 
 /**
- * @brief World map from 1689
+ * @brief World map from 1630
  *
  * Single-zoom, single-image map image.
- * @todo Divide into smaller parts, use also larger file.
+ * @todo Divide into smaller parts, use also larger file from Wikipedia.
  */
-class WorldMap1689RasterModel: public KompasRasterModel {
+class WorldMap1630RasterModel: public KompasRasterModel {
     public:
         /** @copydoc Plugins::KompasRasterModel::KompasRasterModel */
-        WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const std::string& plugin);
+        WorldMap1630RasterModel(PluginManager::AbstractPluginManager* manager, const std::string& plugin);
 
         inline virtual int features() const {
             return KompasRasterModel::features()|LoadableFromUrl|NonConvertableFormat|ConvertableCoords;
         }
         virtual const AbstractProjection* projection() const { return &_projection; }
-        virtual TileSize tileSize() const { return TileSize(2280, 1967); }
+        virtual TileSize tileSize() const { return TileSize(1600, 1124); }
 
         inline virtual std::vector<Core::Zoom> zoomLevels() const {
             return online() ? zoomLevelsOnline : KompasRasterModel::zoomLevels();
@@ -59,7 +59,7 @@ class WorldMap1689RasterModel: public KompasRasterModel {
         }
 
         inline virtual string tileUrl(const string& layer, Zoom z, const TileCoords& coords) const {
-            return "http://upload.wikimedia.org/wikipedia/commons/e/e0/World_Map_1689-smaller.jpg";
+            return "http://lh6.ggpht.com/_KZOijM4jJGU/TIqWkyXcrDI/AAAAAAAAAJs/CQRASGLnWrw/Nova_totius_Terrarum_Orbis_geographica_ac_hydrographica_tabula_(Hendrik_Hondius)_balanced_orig.jpg";
         }
 
     private:
