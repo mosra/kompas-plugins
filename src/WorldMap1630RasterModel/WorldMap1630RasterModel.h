@@ -45,7 +45,7 @@ class WorldMap1630RasterModel: public KompasRasterModel {
         virtual const AbstractProjection* projection() const { return &_projection; }
         virtual TileSize tileSize() const { return TileSize(1600, 1124); }
 
-        inline virtual std::vector<Core::Zoom> zoomLevels() const {
+        inline virtual std::set<Core::Zoom> zoomLevels() const {
             return online() ? zoomLevelsOnline : KompasRasterModel::zoomLevels();
         }
         inline virtual Core::TileArea area() const {
@@ -64,7 +64,7 @@ class WorldMap1630RasterModel: public KompasRasterModel {
 
     private:
         StereographicProjection _projection;
-        std::vector<Core::Zoom> zoomLevelsOnline;
+        std::set<Core::Zoom> zoomLevelsOnline;
         Core::TileArea areaOnline;
         std::vector<std::string> layersOnline, overlaysOnline;
 };

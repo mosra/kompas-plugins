@@ -44,7 +44,7 @@ WorldMap1630RasterModel::WorldMap1630RasterModel(PluginManager::AbstractPluginMa
     _projection.setStretch(Coords<double>((1566-38)/1600.0, (968-197)/1124.0));
 
     /* All zoom levels and layers for online map */
-    zoomLevelsOnline.push_back(0);
+    zoomLevelsOnline.insert(0);
     layersOnline.push_back("Base");
 }
 
