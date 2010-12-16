@@ -45,7 +45,7 @@ WorldMap1630RasterModel::WorldMap1630RasterModel(PluginManager::AbstractPluginMa
 
     /* All zoom levels and layers for online map */
     zoomLevelsOnline.insert(0);
-    layersOnline.push_back("Base");
+    layersOnline.push_back("base");
 }
 
 }}
