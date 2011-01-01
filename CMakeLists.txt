@@ -19,6 +19,8 @@ endif()
 
 add_subdirectory(src)
 
-install(DIRECTORY src/ DESTINATION ${KOMPAS_PLUGINS_INCLUDE_INSTALL_DIR}
+if(NOT WIN32)
+    install(DIRECTORY src/ DESTINATION ${KOMPAS_PLUGINS_INCLUDE_INSTALL_DIR}
                 FILES_MATCHING PATTERN "*.h"
                 PATTERN "*/Test" EXCLUDE)
+endif()
