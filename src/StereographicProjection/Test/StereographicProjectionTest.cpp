@@ -19,6 +19,7 @@
 #include <QtTest/QTest>
 
 #include "Wgs84Coords.h"
+#include "constants.h"
 
 Q_DECLARE_METATYPE(Kompas::Core::Wgs84Coords)
 QTEST_APPLESS_MAIN(Kompas::Plugins::Test::StereographicProjectionTest)
@@ -26,6 +27,13 @@ QTEST_APPLESS_MAIN(Kompas::Plugins::Test::StereographicProjectionTest)
 using namespace Kompas::Core;
 
 namespace Kompas { namespace Plugins { namespace Test {
+
+StereographicProjectionTest::StereographicProjectionTest(QObject* parent): QObject(parent) {
+     projection.setCentralMeridian(-10*PI/180);
+     projection.setGap(0.13f);
+     projection.setShift(Coords<double>(0.10f, 0.05f));
+     projection.setStretch(Coords<double>(0.70f, 0.85f));
+}
 
 void StereographicProjectionTest::coords_data() {
     QTest::addColumn<Wgs84Coords>("coords");
@@ -38,6 +46,10 @@ void StereographicProjectionTest::coords_data() {
         << Wgs84Coords(40.7142691, -74.0059729);
     QTest::newRow("Sydney")
         << Wgs84Coords(-33.88333, 151.2167);
+    QTest::newRow("East")
+        << Wgs84Coords(0, 179.90);
+    QTest::newRow("West")
+        << Wgs84Coords(0, -179.90);
 }
 
 void StereographicProjectionTest::coords() {

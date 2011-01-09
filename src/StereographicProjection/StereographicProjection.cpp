@@ -28,10 +28,11 @@ namespace Kompas { namespace Plugins {
 Coords<double> StereographicProjection::fromWgs84(const Wgs84Coords& coords) const {
     /* Convert coordinates to radians */
     double latitude = coords.latitude()*PI/180;
-    double longtitude = coords.longtitude()*PI/180;
+    double longtitude = coords.longtitude()*PI/180-centralMeridian;
 
-    /* Remove central meridian shift */
-    longtitude -= centralMeridian;
+    /* Get shifted longtitude into limits */
+    if(longtitude < -PI) longtitude += 2*PI;
+    else if (longtitude > PI) longtitude -= 2*PI;
 
     /* Slightly different computation for both hemispheres */
     Coords<double> _coords;
@@ -126,8 +127,9 @@ Wgs84Coords StereographicProjection::toWgs84(const Coords<double>& coords) const
     double latitude = asin(y);
     longtitude += asin(x/sqrt(x*x+z*z))+centralMeridian;
 
-    /* Get it into limits */
-    if(abs(longtitude) > PI) longtitude = -longtitude-PI;
+    /* Get shifted longtitude into limits */
+    if(longtitude > PI) longtitude -= 2*PI;
+    else if(longtitude < -PI) longtitude += 2*PI;
 
     /* Convert from radians and return */
     return Wgs84Coords(latitude*180/PI, longtitude*180/PI);
