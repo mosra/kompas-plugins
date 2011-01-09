@@ -24,6 +24,9 @@ namespace Kompas { namespace Plugins { namespace Test {
 class StereographicProjectionTest: public QObject {
     Q_OBJECT
 
+    public:
+        StereographicProjectionTest(QObject* parent = 0);
+
     private:
         StereographicProjection projection;
 
