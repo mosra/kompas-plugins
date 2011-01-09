@@ -44,13 +44,23 @@ void Earth::generateTextureCoordinates(const AbstractProjection* projection) {
     size_t i = 0;
     for(vector<Vector4>::const_iterator it = icosphere.vertices().begin(); it != icosphere.vertices().end(); ++it) {
         double latitude = asin(static_cast<double>(it->y()));
-        double length = sqrt(static_cast<double>(it->x()*it->x()+it->z()*it->z()));
         double longtitude;
-        if(length != 0)
-            longtitude = asin(static_cast<double>(it->x())/length);
-        else
+
+        /* North / south pole - prevent division by zero length, falling Y
+           coordinate out of (-1, 1) range */
+        if(abs(abs(it->y())-1) < EPSILON) {
+            latitude = it->y() > 0 ? PI/2 : -PI/2;
             longtitude = 0;
 
+        /* -90* / 90* - prevent falling X coordinate out of (-1, 1) range */
+        } else if(abs(it->z()) < EPSILON) {
+            longtitude = it->x() > 0 ? PI/2 : -PI/2;
+
+        /* Everything else */
+        } else longtitude = asin(static_cast<double>(it->x())/sqrt(static_cast<double>(it->x()*it->x()+it->z()*it->z())));
+
+        /* For positive Z longtitude is in (-90°, 90°), for neagtive it is in
+           (-90°, -180°), (90°, 180°) */
         if(it->z() < 0) {
             if(longtitude < 0) longtitude = -PI - longtitude;
             else longtitude = PI - longtitude;
