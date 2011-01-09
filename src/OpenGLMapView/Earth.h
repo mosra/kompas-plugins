@@ -17,8 +17,8 @@
 
 #include "Object.h"
 #include "EarthShader.h"
-#include "IndexedMesh.h"
 #include "BaseTexture.h"
+#include "Icosphere.h"
 
 namespace Magnum {
     class Light;
@@ -44,7 +44,7 @@ class Earth: public Magnum::Object {
 
     private:
         EarthShader shader;
-        Magnum::IndexedMesh mesh;
+        Icosphere icosphere;
         Magnum::Light* light;
         Magnum::Vector3 baseColor;
         Magnum::Buffer* textureCoordinates;

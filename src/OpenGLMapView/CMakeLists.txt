@@ -6,6 +6,7 @@ set(OpenGLMapView_SRCS
     BaseTexture.cpp
     EarthShader.cpp
     Earth.cpp
+    Icosphere.cpp
     OpenGLMapView.cpp
     OpenGLMapViewPrivate.cpp
 )
