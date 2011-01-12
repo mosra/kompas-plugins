@@ -16,10 +16,14 @@
 #include "Earth.h"
 #include "Light.h"
 #include "AbstractProjection.h"
+#include "AbstractRasterModel.h"
+#include "MainWindow.h"
 
 using namespace std;
 using namespace Magnum;
 using namespace Kompas::Core;
+using namespace Kompas::Utility;
+using namespace Kompas::QtGui;
 
 namespace Kompas { namespace Plugins {
 
@@ -39,6 +43,15 @@ Earth::Earth(Light* _light, Object* parent): Object(parent), icosphere(4), light
 }
 
 void Earth::generateTextureCoordinates(const AbstractProjection* projection) {
+    /* How much of the space is occupied with actual map */
+    const AbstractRasterModel* rasterModel = MainWindow::instance()->lockRasterModelForRead();
+    double wholeSize = pow2(*rasterModel->zoomLevels().begin());
+    TileArea currentArea = rasterModel->area();
+    MainWindow::instance()->unlockRasterModel();
+
+    Area<double, double> area(currentArea.x, currentArea.y, currentArea.w, currentArea.h);
+    area = area/wholeSize;
+
     Vector2* coordinates = new Vector2[icosphere.vertexCount()];
 
     size_t i = 0;
@@ -67,6 +80,8 @@ void Earth::generateTextureCoordinates(const AbstractProjection* projection) {
         }
 
         Coords<double> c = projection->fromWgs84(Wgs84Coords(latitude*180/PI, longtitude*180/PI));
+        c.x = (c.x-area.x)/area.w;
+        c.y = (c.y-area.y)/area.h;
 
         coordinates[i++] = Vector2(static_cast<GLfloat>(c.x), static_cast<GLfloat>(c.y));
     }
