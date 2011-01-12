@@ -18,6 +18,7 @@
 #include "Light.h"
 #include "Earth.h"
 #include "MainWindow.h"
+#include <QtGui/QMouseEvent>
 
 using namespace Magnum;
 using namespace Kompas::Core;
@@ -63,6 +64,34 @@ void OpenGLMapViewPrivate::resizeGL(int width, int height) {
 
 void OpenGLMapViewPrivate::paintGL() {
     scene.draw();
+}
+
+void OpenGLMapViewPrivate::mousePressEvent(QMouseEvent* event) {
+    previousMouse = event->pos();
+}
+
+void OpenGLMapViewPrivate::mouseMoveEvent(QMouseEvent* event) {
+    /** @todo Clamp to (-1, 1) */
+    double yAngle = asin(static_cast<double>(event->x())/width()-0.5)
+        -asin(static_cast<double>(previousMouse.x())/width()-0.5);
+    double xAngle = asin(static_cast<double>(event->y())/height()-0.5)
+        -asin(static_cast<double>(previousMouse.y())/height()-0.5);
+
+    earth->rotate(yAngle, Vector3::yAxis(), false);
+    earth->rotate(xAngle, Vector3::xAxis());
+
+    previousMouse = event->pos();
+
+    updateGL();
+}
+
+void OpenGLMapViewPrivate::wheelEvent(QWheelEvent* event) {
+    event->accept();
+
+    if(event->delta() > 0) camera->translate(0, 0, -0.2f);
+    else camera->translate(0, 0, 0.2f);
+
+    updateGL();
 }
 
 }}
