@@ -33,11 +33,6 @@ WorldMap1630RasterModel::WorldMap1630RasterModel(PluginManager::AbstractPluginMa
         right:  1566
         bottom: 966, 970 => 968
         gap:    0
-
-        shift.x = left/width
-        shift.y = top/height
-        stretch.x = (right - left)/width
-        stretch.y = (bottom - top)/height
     */
     _projection.setCentralMeridian(-PI/9);
     _projection.setShift(Coords<double>(38/1600.0, 197/1124.0));
