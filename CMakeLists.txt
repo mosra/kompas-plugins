@@ -17,6 +17,10 @@ if(BUILD_TESTS)
 
 endif()
 
+include(KompasMacros)
+
+set_parent_scope(KOMPAS_PLUGINS_INCLUDE_DIR       "${KOMPAS_PLUGINS_INCLUDE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/src")
+
 add_subdirectory(src)
 
 if(NOT WIN32)
