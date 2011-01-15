@@ -10,6 +10,7 @@ if(QT_PLUGINS)
 endif()
 
 add_subdirectory(FreemapSkRasterModel)
+add_subdirectory(HikeBikeMapRasterModel)
 add_subdirectory(StereographicProjection)
 add_subdirectory(WorldMap1630RasterModel)
 add_subdirectory(WorldMap1689RasterModel)
