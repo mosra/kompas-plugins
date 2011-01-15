@@ -27,7 +27,7 @@ namespace Kompas { namespace Plugins {
 WorldMap1689RasterModel::WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const string& plugin): KompasRasterModel(manager, plugin), areaOnline(0, 0, 1, 1) {
     /*
         width:  2280
-        height: 1967
+        height: 1968
         left:   139
         top:    470, 468 => 469
         right:  2145
@@ -35,8 +35,8 @@ WorldMap1689RasterModel::WorldMap1689RasterModel(PluginManager::AbstractPluginMa
         gap:    0
     */
     _projection.setCentralMeridian(-PI/9);
-    _projection.setShift(Coords<double>(139/2280.0, 469/1967.0));
-    _projection.setStretch(Coords<double>((2145-139)/2280.0, (1490-469)/1967.0));
+    _projection.setShift(Coords<double>(139/2280.0, 469/1968.0));
+    _projection.setStretch(Coords<double>((2145-139)/2280.0, (1490-469)/1968.0));
 
     /* All zoom levels and layers for online map */
     zoomLevelsOnline.insert(0);

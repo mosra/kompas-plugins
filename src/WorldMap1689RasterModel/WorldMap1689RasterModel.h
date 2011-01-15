@@ -43,7 +43,7 @@ class WorldMap1689RasterModel: public KompasRasterModel {
             return KompasRasterModel::features()|LoadableFromUrl|NonConvertableFormat|ConvertableCoords;
         }
         virtual const AbstractProjection* projection() const { return &_projection; }
-        virtual TileSize tileSize() const { return TileSize(2280, 1967); }
+        virtual TileSize tileSize() const { return TileSize(2280, 1968); }
 
         inline virtual std::set<Core::Zoom> zoomLevels() const {
             return online() ? zoomLevelsOnline : KompasRasterModel::zoomLevels();
