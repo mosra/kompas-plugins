@@ -1,8 +1,5 @@
 add_definitions(-Wall -pedantic)
 
-find_package(KompasCore REQUIRED)
-
-set(KOMPAS_PLUGINS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR} ${KOMPAS_PLUGINS_INCLUDE_DIR})
 include_directories(${KOMPAS_CORE_INCLUDE_DIR} ${KOMPAS_PLUGINS_INCLUDE_DIR})
 
 if(QT_PLUGINS)
@@ -14,6 +11,8 @@ if(QT_PLUGINS)
     add_subdirectory(OpenGLMapView)
 endif()
 
+add_subdirectory(FreemapSkRasterModel)
+add_subdirectory(HikeBikeMapRasterModel)
 add_subdirectory(StereographicProjection)
 add_subdirectory(WorldMap1630RasterModel)
 add_subdirectory(WorldMap1689RasterModel)

@@ -1,5 +1,5 @@
-#ifndef Kompas_Plugins_WorldMap1689RasterModel_h
-#define Kompas_Plugins_WorldMap1689RasterModel_h
+#ifndef Kompas_Plugins_HikeBikeMapRasterModel_h
+#define Kompas_Plugins_HikeBikeMapRasterModel_h
 /*
     Copyright © 2007, 2008, 2009, 2010, 2011 Vladimír Vondruš <mosra@centrum.cz>
 
@@ -16,34 +16,31 @@
 */
 
 /** @file
- * @brief Class Kompas::Plugins::WorldMap1689RasterModel
+ * @brief Class Kompas::Plugins::HikeBikeMapRasterModel
  */
 
 #include "KompasRasterModel/KompasRasterModel.h"
-
-#include "StereographicProjection/StereographicProjection.h"
-
-using namespace std;
-using namespace Kompas::Core;
+#include "MercatorProjection/MercatorProjection.h"
 
 namespace Kompas { namespace Plugins {
 
 /**
- * @brief World map from 1689
- *
- * Single-zoom, single-image map image.
- * @todo Divide into smaller parts, use also larger file.
+ * @brief Hike & Bike Map raster model
  */
-class WorldMap1689RasterModel: public KompasRasterModel {
+class HikeBikeMapRasterModel: public KompasRasterModel {
     public:
         /** @copydoc Plugins::KompasRasterModel::KompasRasterModel */
-        WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const std::string& plugin);
+        HikeBikeMapRasterModel(PluginManager::AbstractPluginManager* manager = 0, const std::string& plugin = "");
 
         inline virtual int features() const {
-            return KompasRasterModel::features()|LoadableFromUrl|NonConvertableFormat|ConvertableCoords;
+            return KompasRasterModel::features()|MultipleFileFormat|LoadableFromUrl|NonConvertableFormat|ConvertableCoords;
         }
-        virtual const AbstractProjection* projection() const { return &_projection; }
-        virtual TileSize tileSize() const { return TileSize(2280, 1968); }
+        inline virtual const Core::AbstractProjection* projection() const
+            { return &_projection; }
+        inline virtual Core::TileSize tileSize() const
+            { return Core::TileSize(256,256); }
+        inline virtual std::string copyright() const
+            { return "© OpenStreetMap and contributors, CC-BY-SA."; }
 
         inline virtual std::set<Core::Zoom> zoomLevels() const {
             return online() ? zoomLevelsOnline : KompasRasterModel::zoomLevels();
@@ -58,12 +55,11 @@ class WorldMap1689RasterModel: public KompasRasterModel {
             return online() ? overlaysOnline : KompasRasterModel::overlays();
         }
 
-        inline virtual string tileUrl(const string& layer, Zoom z, const TileCoords& coords) const {
-            return "http://upload.wikimedia.org/wikipedia/commons/e/e0/World_Map_1689-smaller.jpg";
-        }
+        virtual std::string tileUrl(const std::string& layer, Core::Zoom z, const Core::TileCoords& coords) const;
 
     private:
-        StereographicProjection _projection;
+        MercatorProjection _projection;
+
         std::set<Core::Zoom> zoomLevelsOnline;
         Core::TileArea areaOnline;
         std::vector<std::string> layersOnline, overlaysOnline;

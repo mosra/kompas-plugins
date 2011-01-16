@@ -84,6 +84,22 @@ Latitude is in range @f$ [ - {\pi \over 2} ; {\pi \over 2} ] @f$, which is what 
 needed, but longtitude needs to be converted to @f$ [ - \pi ; 0 ] @f$ for left
 hemisphere or @f$ [ 0 ; \pi ] @f$ for right hemisphere. Last step is to apply
 central meridian shift and get longtitude into limits, if needed.
+
+@section StereographicProjection_shiftStretch Computation of shift and stretch
+Given image @c width and @c height, variables @c left, @c right, @c top and
+@c bottom are bounds of both hemispheres (measured from top left image corner).
+Top and bottom bounds are (especially on old maps) in slightly different
+positions for left and right hemisphere, average of these values shouldn't make
+any visible precision problems, if the map is not larger than 10 megapixels.
+Shift and stretch is then calculated like this:
+@f[
+    \begin{array}{lcl}
+        shift.x & = & left \over width                  \\
+        shift.y & = & top \over height                  \\
+        stretch.x & = & {right - left} \over width      \\
+        stretch.y & = & {bottom - top} \over height
+    \end{array}
+@f]
  */
 class StereographicProjection: public Core::AbstractProjection {
     public:
