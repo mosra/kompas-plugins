@@ -23,7 +23,7 @@
 #include "MainWindow.h"
 
 PLUGIN_REGISTER(Kompas::Plugins::OpenGLMapView,
-                "cz.mosra.Kompas.QtGui.AbstractMapView/0.1")
+                "cz.mosra.Kompas.QtGui.AbstractMapView/0.2")
 
 using namespace Kompas::Core;
 using namespace Kompas::Utility;
