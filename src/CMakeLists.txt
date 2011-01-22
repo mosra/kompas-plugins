@@ -2,10 +2,6 @@ add_definitions(-Wall -pedantic)
 
 include_directories(${KOMPAS_CORE_INCLUDE_DIR} ${KOMPAS_PLUGINS_INCLUDE_DIR})
 
-if(QT_PLUGINS)
-    find_package(Qt4 REQUIRED)
-endif()
-
 add_subdirectory(FreemapSkRasterModel)
 add_subdirectory(HikeBikeMapRasterModel)
 add_subdirectory(StereographicProjection)
