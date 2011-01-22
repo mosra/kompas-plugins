@@ -17,6 +17,8 @@ Dependencies
 
  * CMake    - for building
  * Qt       - optionally, for Qt-specific plugins and unit tests
+ * Kompas Core library
+ * Kompas Qt GUI - optionally, for Qt-specific plugins
 
 Compilation, installation
 -------------------------
