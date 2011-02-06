@@ -20,7 +20,7 @@
 using namespace std;
 
 PLUGIN_REGISTER(Kompas::Plugins::WorldMap1689RasterModel,
-                "cz.mosra.Kompas.Core.AbstractRasterModel/0.1")
+                "cz.mosra.Kompas.Core.AbstractRasterModel/0.2")
 
 namespace Kompas { namespace Plugins {
 
