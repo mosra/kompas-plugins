@@ -1,5 +1,3 @@
-find_package(Magnum)
-
 include_directories(${MAGNUM_INCLUDE_DIR})
 
 set(OpenGLMapView_SRCS
