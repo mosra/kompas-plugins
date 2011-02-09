@@ -43,6 +43,8 @@ class WorldMap1689RasterModel: public KompasRasterModel {
             return KompasRasterModel::features()|LoadableFromUrl|NonConvertableFormat|ConvertableCoords;
         }
         virtual const AbstractProjection* projection() const { return &_projection; }
+        inline virtual std::string celestialBody() const
+            { return "EarthCelestialBody"; }
         virtual TileSize tileSize() const { return TileSize(2280, 1968); }
 
         inline virtual std::set<Core::Zoom> zoomLevels() const {
