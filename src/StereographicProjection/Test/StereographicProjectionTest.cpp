@@ -18,10 +18,10 @@
 
 #include <QtTest/QTest>
 
-#include "Wgs84Coords.h"
+#include "LatLonCoords.h"
 #include "constants.h"
 
-Q_DECLARE_METATYPE(Kompas::Core::Wgs84Coords)
+Q_DECLARE_METATYPE(Kompas::Core::LatLonCoords)
 QTEST_APPLESS_MAIN(Kompas::Plugins::Test::StereographicProjectionTest)
 
 using namespace Kompas::Core;
@@ -36,26 +36,26 @@ StereographicProjectionTest::StereographicProjectionTest(QObject* parent): QObje
 }
 
 void StereographicProjectionTest::coords_data() {
-    QTest::addColumn<Wgs84Coords>("coords");
+    QTest::addColumn<LatLonCoords>("coords");
 
     QTest::newRow("Greenwich")
-        << Wgs84Coords(0.0, 0.0);
+        << LatLonCoords(0.0, 0.0);
     QTest::newRow("Prague")
-        << Wgs84Coords(50.08333, 14.46667);
+        << LatLonCoords(50.08333, 14.46667);
     QTest::newRow("New York")
-        << Wgs84Coords(40.7142691, -74.0059729);
+        << LatLonCoords(40.7142691, -74.0059729);
     QTest::newRow("Sydney")
-        << Wgs84Coords(-33.88333, 151.2167);
+        << LatLonCoords(-33.88333, 151.2167);
     QTest::newRow("East")
-        << Wgs84Coords(0, 179.90);
+        << LatLonCoords(0, 179.90);
     QTest::newRow("West")
-        << Wgs84Coords(0, -179.90);
+        << LatLonCoords(0, -179.90);
 }
 
 void StereographicProjectionTest::coords() {
-    QFETCH(Wgs84Coords, coords);
+    QFETCH(LatLonCoords, coords);
 
-    QVERIFY(projection.toWgs84(projection.fromWgs84(coords)) == coords);
+    QVERIFY(projection.toLatLon(projection.fromLatLon(coords)) == coords);
 }
 
 }}}

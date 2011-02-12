@@ -25,7 +25,7 @@ using namespace Kompas::Core;
 
 namespace Kompas { namespace Plugins {
 
-Coords<double> StereographicProjection::fromWgs84(const Wgs84Coords& coords) const {
+Coords<double> StereographicProjection::fromLatLon(const LatLonCoords& coords) const {
     /* Convert coordinates to radians */
     double latitude = coords.latitude()*PI/180;
     double longitude = coords.longitude()*PI/180-centralMeridian;
@@ -77,7 +77,7 @@ Coords<double> StereographicProjection::fromWgs84(const Wgs84Coords& coords) con
     return _coords;
 }
 
-Wgs84Coords StereographicProjection::toWgs84(const Coords<double>& coords) const {
+LatLonCoords StereographicProjection::toLatLon(const Coords<double>& coords) const {
     Coords<double> _coords = coords;
 
     /* Remove shift */
@@ -121,7 +121,7 @@ Wgs84Coords StereographicProjection::toWgs84(const Coords<double>& coords) const
 
     /* Coordinates from opposite hemisphere, no map available, return
         invalid coordinates */
-    if(z > 0) return Wgs84Coords();
+    if(z > 0) return LatLonCoords();
 
     /* Calculate latitude and longitude, apply central meridian */
     double latitude = asin(y);
@@ -132,7 +132,7 @@ Wgs84Coords StereographicProjection::toWgs84(const Coords<double>& coords) const
     else if(longitude < -PI) longitude += 2*PI;
 
     /* Convert from radians and return */
-    return Wgs84Coords(latitude*180/PI, longitude*180/PI);
+    return LatLonCoords(latitude*180/PI, longitude*180/PI);
 }
 
 }}

@@ -30,7 +30,7 @@ Simplified for maps divided into two hemispheres with poles on top and
 bottom, western hemisphere on left, eastern on right. Customizable shift and
 stretch, central meridian (on which are the hemispheres split) and gap
 between hemispheres.
-@section StereographicProjection_fromWgs84 Converting from WGS84 coordinates
+@section StereographicProjection_fromLatLon Converting from lat/lon coordinates
 Conversion is basically the same for both hemispheres. After removing
 central meridian shift (so the hemispheres are split at 0° meridian), left
 hemisphere is in range @f$ [ - \pi ; 0 ] @f$ and right in @f$ [ 0 ; \pi ] @f$.
@@ -54,7 +54,7 @@ Coordinates are in range @f$ [ -1 ; 1 ] @f$, so X coordinates are converted to
 @f$ [ 0; 0.5 ] @f$ if the longitude was in left and @f$ [ 0.5; 1 ] @f$ if it
 was in right hemisphere, Y coordinates are converted to range @f$ [ 0 ; 1 ] @f$.
 Last step is to apply shift, stretch and gap between hemispheres.
-@section StereographicProjection_toWgs84 Converting to WGS84 coordinates
+@section StereographicProjection_toLatLon Converting to lat/lon coordinates
 First step is to remove shift, stretch and gap between hemispheres, then
 converting both Y coordinates from @f$ [ 0 ; 1 ] @f$ and X coordinates from
 @f$ [ 0 ; 0.5 ] @f$ (for left hemisphere) or @f$ [ 0.5 ; 1 ] @f$ (for right
@@ -107,8 +107,8 @@ class StereographicProjection: public Core::AbstractProjection {
         StereographicProjection(PluginManager::AbstractPluginManager* manager = 0, const std::string& plugin = ""):
             AbstractProjection(manager, plugin), stretch(1, 1), shift(0, 0), gap(0), centralMeridian(0) {}
 
-        virtual Core::Coords<double> fromWgs84(const Core::Wgs84Coords& coords) const;
-        virtual Core::Wgs84Coords toWgs84(const Core::Coords<double>& coords) const;
+        virtual Core::Coords<double> fromLatLon(const Core::LatLonCoords& coords) const;
+        virtual Core::LatLonCoords toLatLon(const Core::Coords<double>& coords) const;
 
         /**
          * @brief Set map stretch
