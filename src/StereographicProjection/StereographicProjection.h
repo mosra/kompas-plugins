@@ -35,14 +35,14 @@ Conversion is basically the same for both hemispheres. After removing
 central meridian shift (so the hemispheres are split at 0° meridian), left
 hemisphere is in range @f$ [ - \pi ; 0 ] @f$ and right in @f$ [ 0 ; \pi ] @f$.
 The coordinates are converted to range @f$ [ - {\pi \over 2} ; {\pi \over 2} ] @f$
-for both hemispheres. Then they need to be converted from latitude / longtitude
+for both hemispheres. Then they need to be converted from latitude / longitude
 to coordinates of a point on a sphere @f$ (x, y, z) @f$. Longtitude will be on
 @f$ x @f$ and latitude on @f$ y @f$:
 @f[
     \begin{array}{lcl}
-        x & = & \sin longtitude \cos latitude       \\
+        x & = & \sin longitude \cos latitude        \\
         y & = & - \sin latitude                     \\
-        z & = & - \cos longtitude \cos latitude
+        z & = & - \cos longitude \cos latitude
     \end{array}
 @f]
 Conversion to plane coordinates (according to
@@ -51,7 +51,7 @@ Conversion to plane coordinates (according to
     (X, Y) = \left( \frac{x}{1 - z}, \frac{y}{1 - z} \right)
 @f]
 Coordinates are in range @f$ [ -1 ; 1 ] @f$, so X coordinates are converted to
-@f$ [ 0; 0.5 ] @f$ if the longtitude was in left and @f$ [ 0.5; 1 ] @f$ if it
+@f$ [ 0; 0.5 ] @f$ if the longitude was in left and @f$ [ 0.5; 1 ] @f$ if it
 was in right hemisphere, Y coordinates are converted to range @f$ [ 0 ; 1 ] @f$.
 Last step is to apply shift, stretch and gap between hemispheres.
 @section StereographicProjection_toWgs84 Converting to WGS84 coordinates
@@ -73,17 +73,17 @@ area is blank, invalid coordinates must be returned for these areas. When
 z coordinate is greater than zero, it indicates that the point is from opposite
 hemisphere than the displayed one, so the function returns invalid coordinates.
 
-Conversion of @f$ (x, y, z) @f$ coordinates to latitude and longtitude:
+Conversion of @f$ (x, y, z) @f$ coordinates to latitude and longitude:
 @f[
     \begin{array}{lcl}
         latitude & = & \arcsin y              \\
-        longtitude & = & \arcsin {x \over \sqrt {x^2 + z^2}}
+        longitude & = & \arcsin {x \over \sqrt {x^2 + z^2}}
     \end{array}
 @f]
 Latitude is in range @f$ [ - {\pi \over 2} ; {\pi \over 2} ] @f$, which is what is
-needed, but longtitude needs to be converted to @f$ [ - \pi ; 0 ] @f$ for left
+needed, but longitude needs to be converted to @f$ [ - \pi ; 0 ] @f$ for left
 hemisphere or @f$ [ 0 ; \pi ] @f$ for right hemisphere. Last step is to apply
-central meridian shift and get longtitude into limits, if needed.
+central meridian shift and get longitude into limits, if needed.
 
 @section StereographicProjection_shiftStretch Computation of shift and stretch
 Given image @c width and @c height, variables @c left, @c right, @c top and

@@ -28,36 +28,36 @@ namespace Kompas { namespace Plugins {
 Coords<double> StereographicProjection::fromWgs84(const Wgs84Coords& coords) const {
     /* Convert coordinates to radians */
     double latitude = coords.latitude()*PI/180;
-    double longtitude = coords.longtitude()*PI/180-centralMeridian;
+    double longitude = coords.longitude()*PI/180-centralMeridian;
 
-    /* Get shifted longtitude into limits */
-    if(longtitude < -PI) longtitude += 2*PI;
-    else if (longtitude > PI) longtitude -= 2*PI;
+    /* Get shifted longitude into limits */
+    if(longitude < -PI) longitude += 2*PI;
+    else if (longitude > PI) longitude -= 2*PI;
 
     /* Slightly different computation for both hemispheres */
     Coords<double> _coords;
 
     /* Left (western) hemisphere */
-    if(longtitude < 0) {
-        /* Convert longtitude from range -180° - 0° to -90° - 90° */
-        longtitude += PI/2;
+    if(longitude < 0) {
+        /* Convert longitude from range -180° - 0° to -90° - 90° */
+        longitude += PI/2;
 
         /* X coordinate in left hemisphere center */
         _coords.x = 0.25;
 
     /* Right (eastern) hemisphere */
     } else {
-        /* Convert longtitude from range 0° - 180° to -90° - 90° */
-        longtitude -= PI/2;
+        /* Convert longitude from range 0° - 180° to -90° - 90° */
+        longitude -= PI/2;
 
         /* X coordinate in right hemisphere center */
         _coords.x = 0.75;
     }
 
-    /* Calculate point on a sphere from latitude and longtitude */
-    double x = sin(longtitude)*cos(latitude);
+    /* Calculate point on a sphere from latitude and longitude */
+    double x = sin(longitude)*cos(latitude);
     double y = -sin(latitude);
-    double z = -cos(longtitude)*cos(latitude);
+    double z = -cos(longitude)*cos(latitude);
 
     /* Calculate point on a surface */
     _coords.x += (x/(1 - z))/4;
@@ -94,7 +94,7 @@ Wgs84Coords StereographicProjection::toWgs84(const Coords<double>& coords) const
     /* Convert Y from range (0 - 1) to (-1 - 1) */
     _coords.y = 2*(0.5 - _coords.y);
 
-    double longtitude;
+    double longitude;
 
     /* Left (western) hemisphere */
     if(_coords.x < 0.5) {
@@ -102,7 +102,7 @@ Wgs84Coords StereographicProjection::toWgs84(const Coords<double>& coords) const
         _coords.x = 4*(_coords.x - 0.25);
 
         /* Longtitude in left hemisphere center */
-        longtitude = -PI/2;
+        longitude = -PI/2;
 
     /* Right (eastern) hemisphere */
     } else {
@@ -110,7 +110,7 @@ Wgs84Coords StereographicProjection::toWgs84(const Coords<double>& coords) const
         _coords.x = 4*(_coords.x - 0.75);
 
         /* Longtitude in right hemisphere center */
-        longtitude = PI/2;
+        longitude = PI/2;
     }
 
     /* Calculate x, y, z coordinates of point on a sphere */
@@ -123,16 +123,16 @@ Wgs84Coords StereographicProjection::toWgs84(const Coords<double>& coords) const
         invalid coordinates */
     if(z > 0) return Wgs84Coords();
 
-    /* Calculate latitude and longtitude, apply central meridian */
+    /* Calculate latitude and longitude, apply central meridian */
     double latitude = asin(y);
-    longtitude += asin(x/sqrt(x*x+z*z))+centralMeridian;
+    longitude += asin(x/sqrt(x*x+z*z))+centralMeridian;
 
-    /* Get shifted longtitude into limits */
-    if(longtitude > PI) longtitude -= 2*PI;
-    else if(longtitude < -PI) longtitude += 2*PI;
+    /* Get shifted longitude into limits */
+    if(longitude > PI) longitude -= 2*PI;
+    else if(longitude < -PI) longitude += 2*PI;
 
     /* Convert from radians and return */
-    return Wgs84Coords(latitude*180/PI, longtitude*180/PI);
+    return Wgs84Coords(latitude*180/PI, longitude*180/PI);
 }
 
 }}
