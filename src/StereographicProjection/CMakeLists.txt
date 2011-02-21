@@ -1,7 +1,7 @@
 kompas_add_plugin(StereographicProjection ${KOMPAS_PLUGINS_PROJECTION_INSTALL_DIR} StereographicProjection.conf StereographicProjection.cpp)
 
 if(WIN32)
-    target_link_libraries(StereographicProjection ${KOMPAS_CORE_LIBRARY})
+    target_link_libraries(StereographicProjection ${KOMPAS_CORE_LIBRARIES})
 endif()
 
 if(BUILD_TESTS)
