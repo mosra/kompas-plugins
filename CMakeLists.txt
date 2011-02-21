@@ -31,7 +31,7 @@ if(QT_PLUGINS)
     endif()
 endif()
 
-set_parent_scope(KOMPAS_PLUGINS_INCLUDE_DIR       "${KOMPAS_PLUGINS_INCLUDE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set_parent_scope(KOMPAS_PLUGINS_INCLUDE_DIR       "${CMAKE_CURRENT_SOURCE_DIR}/src" "${KOMPAS_PLUGINS_INCLUDE_DIR}")
 
 add_subdirectory(modules)
 add_subdirectory(src)
