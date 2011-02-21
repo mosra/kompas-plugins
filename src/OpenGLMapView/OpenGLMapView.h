@@ -28,7 +28,7 @@ class OpenGLMapView: public QtGui::AbstractMapView {
         OpenGLMapView(PluginManager::AbstractPluginManager* manager = 0, const std::string& plugin = "");
 
         virtual unsigned int zoom() const { return _zoom; }
-        virtual Core::Wgs84Coords coords(const QPoint& pos = QPoint()) { return Core::Wgs84Coords(); }
+        virtual Core::LatLonCoords coords(const QPoint& pos = QPoint()) { return Core::LatLonCoords(); }
         virtual Core::AbsoluteArea<double> viewedArea(const QRect& area = QRect()) { return Core::AbsoluteArea<double>(); }
         virtual QString layer() const { return _layer; }
         virtual QStringList overlays() const { return QStringList(); }
@@ -38,7 +38,7 @@ class OpenGLMapView: public QtGui::AbstractMapView {
         virtual bool zoomIn(const QPoint& pos = QPoint()) { return false; }
         virtual bool zoomOut(const QPoint& pos = QPoint()) { return false; }
         virtual bool zoomTo(Core::Zoom zoom, const QPoint& pos = QPoint()) { return false; }
-        virtual bool setCoords(const Kompas::Core::Wgs84Coords& coords, const QPoint& pos = QPoint()) { return false; }
+        virtual bool setCoords(const Kompas::Core::LatLonCoords& coords, const QPoint& pos = QPoint()) { return false; }
         virtual bool move(int x, int y);
         virtual bool setLayer(const QString& layer);
         virtual bool addOverlay(const QString& layer) { return false; }

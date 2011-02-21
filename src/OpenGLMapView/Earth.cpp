@@ -58,29 +58,29 @@ void Earth::generateTextureCoordinates(const AbstractProjection* projection) {
     size_t i = 0;
     for(vector<Vector4>::const_iterator it = icosphere.vertices().begin(); it != icosphere.vertices().end(); ++it) {
         double latitude = asin(static_cast<double>(it->y()));
-        double longtitude;
+        double longitude;
 
         /* North / south pole - prevent division by zero length, falling Y
            coordinate out of (-1, 1) range */
         if(abs(abs(it->y())-1) < EPSILON) {
             latitude = it->y() > 0 ? PI/2 : -PI/2;
-            longtitude = 0;
+            longitude = 0;
 
         /* -90* / 90* - prevent falling X coordinate out of (-1, 1) range */
         } else if(abs(it->z()) < EPSILON) {
-            longtitude = it->x() > 0 ? PI/2 : -PI/2;
+            longitude = it->x() > 0 ? PI/2 : -PI/2;
 
         /* Everything else */
-        } else longtitude = asin(static_cast<double>(it->x())/sqrt(static_cast<double>(it->x()*it->x()+it->z()*it->z())));
+        } else longitude = asin(static_cast<double>(it->x())/sqrt(static_cast<double>(it->x()*it->x()+it->z()*it->z())));
 
-        /* For positive Z longtitude is in (-90°, 90°), for neagtive it is in
+        /* For positive Z longitude is in (-90°, 90°), for neagtive it is in
            (-90°, -180°), (90°, 180°) */
         if(it->z() < 0) {
-            if(longtitude < 0) longtitude = -PI - longtitude;
-            else longtitude = PI - longtitude;
+            if(longitude < 0) longitude = -PI - longitude;
+            else longitude = PI - longitude;
         }
 
-        Coords<double> c = projection->fromWgs84(Wgs84Coords(latitude*180/PI, longtitude*180/PI));
+        Coords<double> c = projection->fromLatLon(LatLonCoords(latitude*180/PI, longitude*180/PI));
         c.x = (c.x-area.x)/area.w;
         c.y = (c.y-area.y)/area.h;
 
