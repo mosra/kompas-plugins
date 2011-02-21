@@ -23,6 +23,9 @@
 using namespace std;
 using namespace Kompas::Core;
 
+PLUGIN_REGISTER(Kompas::Plugins::StereographicProjection,
+                "cz.mosra.Kompas.Core.AbstractProjection/0.2")
+
 namespace Kompas { namespace Plugins {
 
 Coords<double> StereographicProjection::fromLatLon(const LatLonCoords& coords) const {
@@ -136,6 +139,3 @@ LatLonCoords StereographicProjection::toLatLon(const Coords<double>& coords) con
 }
 
 }}
-
-PLUGIN_REGISTER(Kompas::Plugins::StereographicProjection,
-                "cz.mosra.Kompas.Core.AbstractProjection/0.1")
