@@ -59,9 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}
-%exclude %{_prefix}/include
-%exclude %{_prefix}/share/*/Modules
+%{_prefix}/lib/kompas
 
 %files devel
 %defattr(-,root,root,-)
