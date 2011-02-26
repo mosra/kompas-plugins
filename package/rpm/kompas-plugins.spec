@@ -60,8 +60,14 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_prefix}/lib/kompas
+%doc COPYING COPYING.LESSER
 
 %files devel
 %defattr(-,root,root,-)
 %{_prefix}/include/Kompas
 %{_prefix}/share/*/Modules
+%doc COPYING COPYING.LESSER
+
+%changelog
+* Sat Feb 26 2011 Vladimír Vondruš <mosra@centrum.cz> - 0.1.1-1
+- Initial release.
