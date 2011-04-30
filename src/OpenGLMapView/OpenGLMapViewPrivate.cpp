@@ -52,10 +52,9 @@ void OpenGLMapViewPrivate::initializeGL() {
     light->translate(-15, 15, 60);
 
     earth = new Earth(light, &scene);
-    const AbstractRasterModel* model = MainWindow::instance()->lockRasterModelForRead();
-    if(model && model->projection())
-        earth->generateTextureCoordinates(model->projection());
-    MainWindow::instance()->unlockRasterModel();
+    Locker<const AbstractRasterModel> rasterModel = MainWindow::instance()->rasterModelForRead();
+    if(rasterModel() && rasterModel()->projection())
+        earth->generateTextureCoordinates(rasterModel()->projection());
 }
 
 void OpenGLMapViewPrivate::resizeGL(int width, int height) {

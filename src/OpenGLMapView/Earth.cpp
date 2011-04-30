@@ -45,10 +45,10 @@ Earth::Earth(Light* _light, Object* parent): Object(parent), icosphere(4), light
 
 void Earth::generateTextureCoordinates(const AbstractProjection* projection) {
     /* How much of the space is occupied with actual map */
-    const AbstractRasterModel* rasterModel = MainWindow::instance()->lockRasterModelForRead();
-    double wholeSize = pow2(*rasterModel->zoomLevels().begin());
-    TileArea currentArea = rasterModel->area();
-    MainWindow::instance()->unlockRasterModel();
+    Locker<const AbstractRasterModel> rasterModel = MainWindow::instance()->rasterModelForRead();
+    double wholeSize = pow2(*rasterModel()->zoomLevels().begin());
+    TileArea currentArea = rasterModel()->area();
+    rasterModel.unlock();
 
     Area<double, double> area(currentArea.x, currentArea.y, currentArea.w, currentArea.h);
     area = area/wholeSize;

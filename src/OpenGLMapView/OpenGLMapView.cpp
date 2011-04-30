@@ -45,13 +45,13 @@ void OpenGLMapView::updateRasterModel() {
     _zoom = pow2(31);
     _layer.clear();
 
-    const AbstractRasterModel* rasterModel = MainWindow::instance()->lockRasterModelForRead();
-    if(rasterModel->projection())
-        view->earth->generateTextureCoordinates(rasterModel->projection());
-    area = rasterModel->area();
-    _zoom = *rasterModel->zoomLevels().begin();
-    QString layer = QString::fromStdString(rasterModel->layers()[0]);
-    MainWindow::instance()->unlockRasterModel();
+    Locker<const AbstractRasterModel> rasterModel = MainWindow::instance()->rasterModelForRead();
+    if(rasterModel()->projection())
+        view->earth->generateTextureCoordinates(rasterModel()->projection());
+    area = rasterModel()->area();
+    _zoom = *rasterModel()->zoomLevels().begin();
+    QString layer = QString::fromStdString(rasterModel()->layers()[0]);
+    rasterModel.unlock();
 
     setLayer(layer);
 }
