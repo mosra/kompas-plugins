@@ -8,6 +8,12 @@ if(QT_PLUGINS OR BUILD_TESTS)
     include_directories(${QT_INCLUDE_DIR})
 endif()
 
+if(QT_PLUGINS)
+    include_directories(${KOMPAS_QT_INCLUDE_DIR})
+
+    add_subdirectory(ImageRasterModel)
+endif()
+
 add_subdirectory(FreemapSkRasterModel)
 add_subdirectory(HikeBikeMapRasterModel)
 add_subdirectory(MapQuestOpenRasterModel)
