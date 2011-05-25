@@ -11,6 +11,8 @@ endif()
 if(QT_PLUGINS)
     include_directories(${KOMPAS_QT_INCLUDE_DIR})
 
+    add_subdirectory(ImageRasterModel)
+
     find_package(Magnum)
     if(NOT MAGNUM_FOUND)
         message(WARNING "Magnum was not found. OpenGL map view plugin will not be build.")
