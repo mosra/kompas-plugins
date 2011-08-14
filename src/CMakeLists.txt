@@ -14,6 +14,7 @@ if(QT_PLUGINS)
     add_subdirectory(ImageRasterModel)
 endif()
 
+add_subdirectory(FilesystemCache)
 add_subdirectory(FreemapSkRasterModel)
 add_subdirectory(HikeBikeMapRasterModel)
 add_subdirectory(MapQuestOpenRasterModel)
