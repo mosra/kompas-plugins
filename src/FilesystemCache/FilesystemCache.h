@@ -114,14 +114,14 @@ course.</p>
 <td>File size in bytes</td>
 </tr>
 <tr>
-<td>24</td>
-<td>unsigned char</td>
-<td>Usage counter</td>
-</tr>
-<tr>
-<td>25 - 28</td>
+<td>24 - 27</td>
 <td>unsigned int</td>
 <td>Key size</td>
+</tr>
+<tr>
+<td>28</td>
+<td>unsigned char</td>
+<td>Usage counter</td>
 </tr>
 <tr>
 <td>29 - n</td>

@@ -77,14 +77,14 @@ bool FilesystemCache::initializeCache(const std::string& url) {
 
             Entry* entry = new Entry();
 
-            /* SHA-1, file size and usage */
+            /* SHA-1, file size, key size and usage */
             file.read(reinterpret_cast<char*>(&entry->sha1), 20);
             file.read(buffer, 4);
             entry->size = Endianness::littleEndian(*reinterpret_cast<unsigned int*>(buffer));
+            file.read(buffer, 4);
             file.read(reinterpret_cast<char*>(&entry->usage), 1);
 
             /* Key */
-            file.read(buffer, 4);
             unsigned int keySize = Endianness::littleEndian(*reinterpret_cast<unsigned int*>(buffer));
             char* key = new char[keySize];
             file.read(key, keySize);
