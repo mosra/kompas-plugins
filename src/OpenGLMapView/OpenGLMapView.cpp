@@ -36,6 +36,7 @@ OpenGLMapView::OpenGLMapView(PluginManager::AbstractPluginManager* manager, cons
     view = new OpenGLMapViewPrivate;
     QHBoxLayout* layout = new QHBoxLayout;
     layout->addWidget(view);
+    layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
 }
 
