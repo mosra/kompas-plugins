@@ -30,6 +30,10 @@ class Icosphere: public Magnum::IndexedMesh {
     private:
         Magnum::Buffer* _vertexBuffer;
         std::vector<Magnum::Vector4> _vertices;
+
+        static inline Magnum::Vector4 interpolator(Magnum::Vector4 a, Magnum::Vector4 b) {
+            return (a+b).xyz().normalized();
+        }
 };
 
 }}

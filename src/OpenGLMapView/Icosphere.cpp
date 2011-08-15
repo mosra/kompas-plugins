@@ -70,37 +70,7 @@ Icosphere::Icosphere(size_t subdivisions): IndexedMesh(Mesh::Triangles, 0, 0, GL
 
     /* Make subdivisions */
     for(size_t subdiv = 0; subdiv != subdivisions; ++subdiv) {
-        set<MeshBuilder<Vector4>::Face*> faces = builder.faces();
-
-        /* Subdivide each face to four new */
-        for(set<MeshBuilder<Vector4>::Face*>::const_iterator face = faces.begin(); face != faces.end(); ++face) {
-            Vector4* newVertices[3];
-
-            /* Smooth subdivide each side (new vertex has also length = 1) */
-            for(int i = 0; i != 3; ++i)
-                newVertices[i] = new Vector4((*(*face)->vertices[i]+*(*face)->vertices[(i+1)%3]).xyz().normalized());
-
-            /*
-             * Add four new faces and remove original
-             *
-             *                orig 0
-             *                /   \
-             *               /  0  \
-             *              /       \
-             *          new 0 ----- new 2
-             *         /    \       /   \
-             *        /   1  \  2  / 3   \
-             *       /        \   /       \
-             *   orig 1 ----- new 1 ---- orig 2
-             */
-            builder.addFace(new MeshBuilder<Vector4>::Face((*face)->vertices[0], newVertices[0], newVertices[2]));
-            builder.addFace(new MeshBuilder<Vector4>::Face(newVertices[0], (*face)->vertices[1], newVertices[1]));
-            builder.addFace(new MeshBuilder<Vector4>::Face(newVertices[0], newVertices[1], newVertices[2]));
-            builder.addFace(new MeshBuilder<Vector4>::Face(newVertices[2], newVertices[1], (*face)->vertices[2]));
-            builder.removeFace(*face);
-        }
-
-        /* Clean the mesh */
+        builder.subdivide(interpolator);
         builder.cleanMesh();
     }
 
