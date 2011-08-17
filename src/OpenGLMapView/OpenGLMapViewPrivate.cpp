@@ -15,10 +15,11 @@
 
 #include "OpenGLMapViewPrivate.h"
 
+#include <QtGui/QMouseEvent>
+
 #include "Light.h"
 #include "Earth.h"
 #include "MainWindow.h"
-#include <QtGui/QMouseEvent>
 
 using namespace Magnum;
 using namespace Kompas::Core;
