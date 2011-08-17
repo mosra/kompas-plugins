@@ -38,10 +38,16 @@ OpenGLMapView::OpenGLMapView(PluginManager::AbstractPluginManager* manager, cons
     layout->addWidget(view);
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
+
+    updateRasterModel();
 }
 
 void OpenGLMapView::updateRasterModel() {
-    if(!isReady() || !view->earth) return;
+    if(!isReady()) return;
+
+    /* The only possible way to call initializeGL. Hope the blind draw wouldn't
+       do any harm. */
+    if(!view->earth) view->updateGL();
 
     _zoom = pow2(31);
     _layer.clear();
