@@ -44,7 +44,7 @@ void OpenGLMapViewPrivate::initializeGL() {
     scene.setClearColor(0.1f, 0.1f, 0.1f, 1);
 
     camera = new Camera(&scene);
-    camera->setPerspective(35.0f*PI/180, 0.1f, 100);
+    camera->setPerspective(35.0f*PI/180, 0.001f, 100);
     camera->translate(0, 0, 3.5f);
     scene.setCamera(camera);
     scene.setFeature(Scene::DepthTest, true);
@@ -88,8 +88,13 @@ void OpenGLMapViewPrivate::mouseMoveEvent(QMouseEvent* event) {
 void OpenGLMapViewPrivate::wheelEvent(QWheelEvent* event) {
     event->accept();
 
-    if(event->delta() > 0) camera->translate(0, 0, -0.2f);
-    else camera->translate(0, 0, 0.2f);
+    /* Distance between the planet (unit size) and near camera clipping plane */
+    GLfloat distance = camera->transformation().at(3).z()-1-camera->near();
+
+    if(event->delta() > 0) distance *= 1 - 1/0.85f;
+    else distance *= 1 - 0.85f;
+
+    camera->translate(0, 0, distance);
 
     updateGL();
 }
