@@ -1,3 +1,6 @@
+# Magnum uses unordered_map from C++Ox
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+
 include_directories(${MAGNUM_INCLUDE_DIR})
 
 set(OpenGLMapView_SRCS

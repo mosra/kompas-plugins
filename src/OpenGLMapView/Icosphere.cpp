@@ -69,15 +69,15 @@ Icosphere::Icosphere(size_t subdivisions): IndexedMesh(Mesh::Triangles, 0, 0, GL
     builder.setData(icoVertices, icoIndices, 12, 60);
 
     /* Make subdivisions */
-    for(size_t subdiv = 0; subdiv != subdivisions; ++subdiv) {
+    for(size_t subdiv = 0; subdiv != subdivisions; ++subdiv)
         builder.subdivide(interpolator);
-        builder.cleanMesh();
-    }
+
+    builder.cleanMesh<3>();
 
     _vertexBuffer = addBuffer(true);
     builder.build(this, _vertexBuffer, Buffer::DrawStatic, Buffer::DrawStatic);
 
-    _vertices = builder.fixedVertices();
+    _vertices = builder.vertices();
 }
 
 }}
