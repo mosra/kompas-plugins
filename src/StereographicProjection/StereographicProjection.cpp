@@ -104,7 +104,7 @@ LatLonCoords StereographicProjection::toLatLon(const Coords<double>& coords) con
         /* Convert X from range (0 - 0.5) to (-1 - 1) */
         _coords.x = 4*(_coords.x - 0.25);
 
-        /* Longtitude in left hemisphere center */
+        /* Longitude in left hemisphere center */
         longitude = -PI/2;
 
     /* Right (eastern) hemisphere */
@@ -112,7 +112,7 @@ LatLonCoords StereographicProjection::toLatLon(const Coords<double>& coords) con
         /* Convert X from range (0.5 - 1) to (-1 - 1) */
         _coords.x = 4*(_coords.x - 0.75);
 
-        /* Longtitude in right hemisphere center */
+        /* Longitude in right hemisphere center */
         longitude = PI/2;
     }
 
