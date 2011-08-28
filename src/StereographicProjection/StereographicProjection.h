@@ -33,19 +33,13 @@ between hemispheres.
 @section StereographicProjection_fromLatLon Converting from lat/lon coordinates
 Conversion is basically the same for both hemispheres. After removing
 central meridian shift (so the hemispheres are split at 0° meridian), left
-hemisphere is in range @f$ [ - \pi ; 0 ] @f$ and right in @f$ [ 0 ; \pi ] @f$.
-The coordinates are converted to range @f$ [ - {\pi \over 2} ; {\pi \over 2} ] @f$
-for both hemispheres. Then they need to be converted from latitude / longitude
-to coordinates of a point on a sphere @f$ (x, y, z) @f$. Longtitude will be on
-@f$ x @f$ and latitude on @f$ y @f$:
-@f[
-    \begin{array}{lcl}
-        x & = & \sin longitude \cos latitude        \\
-        y & = & - \sin latitude                     \\
-        z & = & - \cos longitude \cos latitude
-    \end{array}
-@f]
-Conversion to plane coordinates (according to
+hemisphere is in range @f$ [ - 180^\circ ; 0^\circ ] @f$ and right in
+@f$ [ 0^\circ ; 180^\circ ] @f$. The coordinates are shifted to range
+@f$ [ - 90^\circ ; 90^\circ ] @f$ for both hemispheres and converted to
+coordinates of a point on a sphere @f$ (x, y, z) @f$ using
+@ref Core::LatLonCoords::toPointOnSphere(). Y and Z coords are then flipped,
+because stereographic projection projects the image mirrored. Then the point on
+a sphere is converted to point on surface (according to
 <a href="http://en.wikipedia.org/wiki/Stereographic_projection">Wikipedia</a>):
 @f[
     (X, Y) = \left( \frac{x}{1 - z}, \frac{y}{1 - z} \right)
@@ -58,8 +52,8 @@ Last step is to apply shift, stretch and gap between hemispheres.
 First step is to remove shift, stretch and gap between hemispheres, then
 converting both Y coordinates from @f$ [ 0 ; 1 ] @f$ and X coordinates from
 @f$ [ 0 ; 0.5 ] @f$ (for left hemisphere) or @f$ [ 0.5 ; 1 ] @f$ (for right
-hemisphere) to @f$ [ -1 ; 1 ] @f$. Then they are converted to
-coordinates of a point on a sphere (according to
+hemisphere) to @f$ [ -1 ; 1 ] @f$. Then the point on a surface is converted to
+point on a sphere (according to
 <a href="http://en.wikipedia.org/wiki/Stereographic_projection">Wikipedia</a>):
 @f[
     (x, y, z) = \left(
@@ -73,16 +67,12 @@ area is blank, invalid coordinates must be returned for these areas. When
 z coordinate is greater than zero, it indicates that the point is from opposite
 hemisphere than the displayed one, so the function returns invalid coordinates.
 
-Conversion of @f$ (x, y, z) @f$ coordinates to latitude and longitude:
-@f[
-    \begin{array}{lcl}
-        latitude & = & \arcsin y              \\
-        longitude & = & \arcsin {x \over \sqrt {x^2 + z^2}}
-    \end{array}
-@f]
-Latitude is in range @f$ [ - {\pi \over 2} ; {\pi \over 2} ] @f$, which is what is
-needed, but longitude needs to be converted to @f$ [ - \pi ; 0 ] @f$ for left
-hemisphere or @f$ [ 0 ; \pi ] @f$ for right hemisphere. Last step is to apply
+Y and Z coords are flipped (because stereographic projection projects the image
+mirrored) and converted to latitude and longitude using
+@ref Core::LatLonCoords::fromPointOnSphere(). Latitude is in range
+@f$ [ - 90^\circ ; 90^\circ ] @f$, which is what is needed, but longitude needs
+to be converted to @f$ [ - 180^\circ ; 0^\circ ] @f$ for left hemisphere or
+@f$ [ 0^\circ ; 180^\circ ] @f$ for right hemisphere. Last step is to apply
 central meridian shift and get longitude into limits, if needed.
 
 @section StereographicProjection_shiftStretch Computation of shift and stretch
