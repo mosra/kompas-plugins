@@ -27,7 +27,7 @@ using namespace Kompas::QtGui;
 
 namespace Kompas { namespace Plugins {
 
-Earth::Earth(Light* _light, Object* parent): Object(parent), icosphere(4), light(_light), baseColor(1.0f, 1.0f, 0.8f) {
+Earth::Earth(Light* _light, Object* parent): Object(parent), light(_light), baseColor(1.0f, 1.0f, 0.8f) {
 
     /* Bind shader attribute to the buffer */
     icosphere.bindAttribute<Vector4>(icosphere.vertexBuffer(), EarthShader::Vertex);
@@ -44,6 +44,29 @@ Earth::Earth(Light* _light, Object* parent): Object(parent), icosphere(4), light
 }
 
 void Earth::generateTextureCoordinates(const AbstractProjection* projection) {
+    /* Create seam planes from projection */
+    vector<LatLonCoords> s = projection->seams();
+    double x, y, z;
+    vector<Matrix3> seams;
+    seams.reserve(s.size()*2/3);
+    for(size_t i = 0; i < s.size(); i += 3) {
+        Matrix3 first, second;
+        for(size_t j = 0; j != 3; ++j) {
+            s[i+j].toPointOnSphere(&x, &y, &z);
+            first.set(j, Vector3(x, y, z));
+        }
+
+        /* Create two parallel planes in smallest possible distance around the seam */
+        Vector3 translation = Vector3::cross(first.at(1)-first.at(0), first.at(2)-first.at(0)).normalized()*EPSILON;
+        for(size_t j = 0; j != 3; ++j) {
+            second.set(j, first.at(j)+translation);
+            first.set(j, first.at(j)-translation);
+        }
+        seams.push_back(first);
+        seams.push_back(second);
+    }
+    vector<Vector4> vertices = icosphere.create(4, seams);
+
     /* How much of the space is occupied with actual map */
     Locker<const AbstractRasterModel> rasterModel = MainWindow::instance()->rasterModelForRead();
     double wholeSize = pow2(*rasterModel()->zoomLevels().begin());
@@ -56,7 +79,7 @@ void Earth::generateTextureCoordinates(const AbstractProjection* projection) {
     Vector2* coordinates = new Vector2[icosphere.vertexCount()];
 
     size_t i = 0;
-    for(vector<Vector4>::const_iterator it = icosphere.vertices().begin(); it != icosphere.vertices().end(); ++it) {
+    for(vector<Vector4>::const_iterator it = vertices.begin(); it != vertices.end(); ++it) {
         double latitude = asin(static_cast<double>(it->y()));
         double longitude;
 

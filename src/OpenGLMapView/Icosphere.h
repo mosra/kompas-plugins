@@ -21,16 +21,23 @@ namespace Kompas { namespace Plugins {
 
 class Icosphere: public Magnum::IndexedMesh {
     public:
-        Icosphere(size_t subdivisions);
+        inline Icosphere(): IndexedMesh(Mesh::Triangles, 0, 0, GL_UNSIGNED_BYTE) {
+            _vertexBuffer = addBuffer(true);
+        }
 
         /** @brief Buffer with icosphere vertices */
         inline Magnum::Buffer* vertexBuffer() const { return _vertexBuffer; }
 
-        inline const std::vector<Magnum::Vector4>& vertices() const { return _vertices; }
+        /**
+         * @brief Create icosphere mesh
+         * @param subdivisions      Subdivision count
+         * @param seams             List of seam planes. The icosphere will be
+         *      cut on intersection with each seam plane.
+         */
+        std::vector<Magnum::Vector4> create(size_t subdivisions, const std::vector<Magnum::Matrix3>& seams);
 
     private:
         Magnum::Buffer* _vertexBuffer;
-        std::vector<Magnum::Vector4> _vertices;
 
         static inline Magnum::Vector4 interpolator(Magnum::Vector4 a, Magnum::Vector4 b) {
             return (a+b).xyz().normalized();
