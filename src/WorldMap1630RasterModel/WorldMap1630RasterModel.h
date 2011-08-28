@@ -39,28 +39,28 @@ class WorldMap1630RasterModel: public KompasRasterModel {
         /** @copydoc Plugins::KompasRasterModel::KompasRasterModel */
         WorldMap1630RasterModel(PluginManager::AbstractPluginManager* manager, const std::string& plugin);
 
-        inline virtual int features() const {
+        inline int features() const {
             return KompasRasterModel::features()|LoadableFromUrl|NonConvertableFormat|ConvertableCoords;
         }
-        virtual const AbstractProjection* projection() const { return &_projection; }
-        inline virtual std::string celestialBody() const
+        const AbstractProjection* projection() const { return &_projection; }
+        inline std::string celestialBody() const
             { return "EarthCelestialBody"; }
-        virtual TileSize tileSize() const { return TileSize(1600, 1124); }
+        TileSize tileSize() const { return TileSize(1600, 1124); }
 
-        inline virtual std::set<Core::Zoom> zoomLevels() const {
+        inline std::set<Core::Zoom> zoomLevels() const {
             return online() ? zoomLevelsOnline : KompasRasterModel::zoomLevels();
         }
-        inline virtual Core::TileArea area() const {
+        inline Core::TileArea area() const {
             return online() ? areaOnline : KompasRasterModel::area();
         }
-        virtual std::vector<std::string> layers() const {
+        std::vector<std::string> layers() const {
             return online() ? layersOnline : KompasRasterModel::layers();
         }
-        virtual std::vector<std::string> overlays() const {
+        std::vector<std::string> overlays() const {
             return online() ? overlaysOnline : KompasRasterModel::overlays();
         }
 
-        inline virtual string tileUrl(const string& layer, Zoom z, const TileCoords& coords) const {
+        inline string tileUrl(const string& layer, Zoom z, const TileCoords& coords) const {
             return "http://lh6.ggpht.com/_KZOijM4jJGU/TIqWkyXcrDI/AAAAAAAAAJs/CQRASGLnWrw/Nova_totius_Terrarum_Orbis_geographica_ac_hydrographica_tabula_(Hendrik_Hondius)_balanced_orig.jpg";
         }
 

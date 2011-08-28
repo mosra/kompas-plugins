@@ -39,28 +39,28 @@ class WorldMap1689RasterModel: public KompasRasterModel {
         /** @copydoc Plugins::KompasRasterModel::KompasRasterModel */
         WorldMap1689RasterModel(PluginManager::AbstractPluginManager* manager, const std::string& plugin);
 
-        inline virtual int features() const {
+        inline int features() const {
             return KompasRasterModel::features()|LoadableFromUrl|NonConvertableFormat|ConvertableCoords;
         }
-        virtual const AbstractProjection* projection() const { return &_projection; }
-        inline virtual std::string celestialBody() const
+        const AbstractProjection* projection() const { return &_projection; }
+        inline std::string celestialBody() const
             { return "EarthCelestialBody"; }
-        virtual TileSize tileSize() const { return TileSize(2280, 1968); }
+        TileSize tileSize() const { return TileSize(2280, 1968); }
 
-        inline virtual std::set<Core::Zoom> zoomLevels() const {
+        inline std::set<Core::Zoom> zoomLevels() const {
             return online() ? zoomLevelsOnline : KompasRasterModel::zoomLevels();
         }
-        inline virtual Core::TileArea area() const {
+        inline Core::TileArea area() const {
             return online() ? areaOnline : KompasRasterModel::area();
         }
-        virtual std::vector<std::string> layers() const {
+        std::vector<std::string> layers() const {
             return online() ? layersOnline : KompasRasterModel::layers();
         }
-        virtual std::vector<std::string> overlays() const {
+        std::vector<std::string> overlays() const {
             return online() ? overlaysOnline : KompasRasterModel::overlays();
         }
 
-        inline virtual string tileUrl(const string& layer, Zoom z, const TileCoords& coords) const {
+        inline string tileUrl(const string& layer, Zoom z, const TileCoords& coords) const {
             return "http://upload.wikimedia.org/wikipedia/commons/e/e0/World_Map_1689-smaller.jpg";
         }
 

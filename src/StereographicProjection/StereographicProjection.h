@@ -97,9 +97,9 @@ class StereographicProjection: public Core::AbstractProjection {
         StereographicProjection(PluginManager::AbstractPluginManager* manager = 0, const std::string& plugin = ""):
             AbstractProjection(manager, plugin), _seams(3), stretch(1, 1), shift(0, 0), gap(0) { setCentralMeridian(0); }
 
-        virtual Core::Coords<double> fromLatLon(const Core::LatLonCoords& coords) const;
-        virtual Core::LatLonCoords toLatLon(const Core::Coords<double>& coords) const;
-        inline virtual std::vector<Core::LatLonCoords> seams() const
+        Core::Coords<double> fromLatLon(const Core::LatLonCoords& coords) const;
+        Core::LatLonCoords toLatLon(const Core::Coords<double>& coords) const;
+        inline std::vector<Core::LatLonCoords> seams() const
             { return _seams; }
 
         /**

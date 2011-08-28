@@ -31,9 +31,9 @@ class MarsCelestialBody: public Core::AbstractCelestialBody {
         /** @copydoc Core::AbstractCelestialBody::AbstractCelestialBody */
         MarsCelestialBody(PluginManager::AbstractPluginManager* manager = 0, const std::string& plugin = ""): AbstractCelestialBody(manager, plugin) {}
 
-        inline virtual double equatorialRadius() const { return  3396200; }
-        inline virtual double polarRadius() const { return 3376200; }
-        inline virtual double flattening() const { return 0.00589; }
+        inline double equatorialRadius() const { return  3396200; }
+        inline double polarRadius() const { return 3376200; }
+        inline double flattening() const { return 0.00589; }
 };
 
 }}

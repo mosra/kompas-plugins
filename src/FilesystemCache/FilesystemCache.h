@@ -144,38 +144,38 @@ class FilesystemCache: public Core::AbstractCache {
 
         inline virtual ~FilesystemCache() { finalizeCache(); }
 
-        inline virtual int features() const { return BlockBased; }
+        inline int features() const { return BlockBased; }
 
-        virtual bool initializeCache(const std::string& url);
+        bool initializeCache(const std::string& url);
         void finalizeCache();
 
-        inline virtual size_t blockSize() const { return _blockSize; }
-        virtual void setBlockSize(size_t size);
+        inline size_t blockSize() const { return _blockSize; }
+        void setBlockSize(size_t size);
 
-        inline virtual size_t cacheSize() const { return _maxBlockCount*_blockSize; }
-        inline virtual void setCacheSize(size_t size) {
+        inline size_t cacheSize() const { return _maxBlockCount*_blockSize; }
+        inline void setCacheSize(size_t size) {
             _maxBlockCount = blockCount(size-_blockSize+1);
             if(_entries.size() != 0) reserveSpace(0);
         }
 
-        inline virtual size_t usedSize() const { return _usedBlockCount*_blockSize; }
+        inline size_t usedSize() const { return _usedBlockCount*_blockSize; }
 
         /**
          * @copydoc Core::AbstractCache::purge()
          * Removes all entries from the cache and calls @ref optimize().
          */
-        virtual void purge();
+        void purge();
 
         /**
          * @copydoc Core::AbstractCache::optimize()
          * Deletes only files and directories which look like SHA-1 hashes,
          * leaves anything else alone.
          */
-        virtual void optimize();
+        void optimize();
 
     protected:
-        virtual std::string get(const std::string& key);
-        virtual bool set(const std::string& key, const std::string& data);
+        std::string get(const std::string& key);
+        bool set(const std::string& key, const std::string& data);
 
     private:
         struct Entry {
