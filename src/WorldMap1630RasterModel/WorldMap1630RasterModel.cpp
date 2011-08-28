@@ -34,7 +34,7 @@ WorldMap1630RasterModel::WorldMap1630RasterModel(PluginManager::AbstractPluginMa
         bottom: 966, 970 => 968
         gap:    0
     */
-    _projection.setCentralMeridian(-PI/9);
+    _projection.setCentralMeridian(-20);
     _projection.setShift(Coords<double>(38/1600.0, 197/1124.0));
     _projection.setStretch(Coords<double>((1566-38)/1600.0, (968-197)/1124.0));
 

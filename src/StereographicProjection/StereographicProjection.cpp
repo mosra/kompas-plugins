@@ -29,13 +29,11 @@ PLUGIN_REGISTER(Kompas::Plugins::StereographicProjection,
 namespace Kompas { namespace Plugins {
 
 Coords<double> StereographicProjection::fromLatLon(const LatLonCoords& coords) const {
-    /* Convert coordinates to radians */
-    double latitude = coords.latitude()*PI/180;
-    double longitude = coords.longitude()*PI/180-centralMeridian;
+    double longitude = coords.longitude()-centralMeridian;
 
     /* Get shifted longitude into limits */
-    if(longitude < -PI) longitude += 2*PI;
-    else if (longitude > PI) longitude -= 2*PI;
+    if(longitude < -180) longitude += 360;
+    else if (longitude > 180) longitude -= 360;
 
     /* Slightly different computation for both hemispheres */
     Coords<double> _coords;
@@ -43,7 +41,7 @@ Coords<double> StereographicProjection::fromLatLon(const LatLonCoords& coords) c
     /* Left (western) hemisphere */
     if(longitude < 0) {
         /* Convert longitude from range -180° - 0° to -90° - 90° */
-        longitude += PI/2;
+        longitude += 90;
 
         /* X coordinate in left hemisphere center */
         _coords.x = 0.25;
@@ -51,20 +49,19 @@ Coords<double> StereographicProjection::fromLatLon(const LatLonCoords& coords) c
     /* Right (eastern) hemisphere */
     } else {
         /* Convert longitude from range 0° - 180° to -90° - 90° */
-        longitude -= PI/2;
+        longitude -= 90;
 
         /* X coordinate in right hemisphere center */
         _coords.x = 0.75;
     }
 
     /* Calculate point on a sphere from latitude and longitude */
-    double x = sin(longitude)*cos(latitude);
-    double y = -sin(latitude);
-    double z = -cos(longitude)*cos(latitude);
+    double x, y, z;
+    LatLonCoords(coords.latitude(), longitude).toPointOnSphere(&x, &y, &z);
 
-    /* Calculate point on a surface */
-    _coords.x += (x/(1 - z))/4;
-    _coords.y = 0.5 + (y/(1 - z))/2;
+    /* Calculate point on a surface (y and z are flipped) */
+    _coords.x += (x/(1 + z))/4;
+    _coords.y = 0.5 - (y/(1 + z))/2;
 
     /* Apply stretch */
     _coords.x *= stretch.x;
@@ -95,7 +92,7 @@ LatLonCoords StereographicProjection::toLatLon(const Coords<double>& coords) con
     _coords.y /= stretch.y;
 
     /* Convert Y from range (0 - 1) to (-1 - 1) */
-    _coords.y = 2*(0.5 - _coords.y);
+    _coords.y = 2*_coords.y-1;
 
     double longitude;
 
@@ -104,16 +101,16 @@ LatLonCoords StereographicProjection::toLatLon(const Coords<double>& coords) con
         /* Convert X from range (0 - 0.5) to (-1 - 1) */
         _coords.x = 4*(_coords.x - 0.25);
 
-        /* Longtitude in left hemisphere center */
-        longitude = -PI/2;
+        /* Longitude in left hemisphere center */
+        longitude = -90;
 
     /* Right (eastern) hemisphere */
     } else {
         /* Convert X from range (0.5 - 1) to (-1 - 1) */
         _coords.x = 4*(_coords.x - 0.75);
 
-        /* Longtitude in right hemisphere center */
-        longitude = PI/2;
+        /* Longitude in right hemisphere center */
+        longitude = 90;
     }
 
     /* Calculate x, y, z coordinates of point on a sphere */
@@ -126,16 +123,17 @@ LatLonCoords StereographicProjection::toLatLon(const Coords<double>& coords) con
         invalid coordinates */
     if(z > 0) return LatLonCoords();
 
-    /* Calculate latitude and longitude, apply central meridian */
-    double latitude = asin(y);
-    longitude += asin(x/sqrt(x*x+z*z))+centralMeridian;
+    /* Calculate latitude and longitude (y and z is flipped), apply central
+       meridian */
+    LatLonCoords c = LatLonCoords::fromPointOnSphere(x, -y, -z);
+    longitude += c.longitude()+centralMeridian;
 
     /* Get shifted longitude into limits */
-    if(longitude > PI) longitude -= 2*PI;
-    else if(longitude < -PI) longitude += 2*PI;
+    if(longitude > 180) longitude -= 360;
+    else if(longitude < -180) longitude += 360;
 
     /* Convert from radians and return */
-    return LatLonCoords(latitude*180/PI, longitude*180/PI);
+    return LatLonCoords(c.latitude(), longitude);
 }
 
 }}
