@@ -95,10 +95,12 @@ class StereographicProjection: public Core::AbstractProjection {
     public:
         /** @copydoc Core::AbstractProjection::AbstractProjection */
         StereographicProjection(PluginManager::AbstractPluginManager* manager = 0, const std::string& plugin = ""):
-            AbstractProjection(manager, plugin), stretch(1, 1), shift(0, 0), gap(0), centralMeridian(0) {}
+            AbstractProjection(manager, plugin), _seams(3), stretch(1, 1), shift(0, 0), gap(0) { setCentralMeridian(0); }
 
         virtual Core::Coords<double> fromLatLon(const Core::LatLonCoords& coords) const;
         virtual Core::LatLonCoords toLatLon(const Core::Coords<double>& coords) const;
+        inline virtual std::vector<Core::LatLonCoords> seams() const
+            { return _seams; }
 
         /**
          * @brief Set map stretch
@@ -136,10 +138,10 @@ class StereographicProjection: public Core::AbstractProjection {
          * By default the hemispheres are split on 0th meridian (Greenwich).
          * Value is in degrees, positive value is east, negative west.
          */
-        inline void setCentralMeridian(double _meridian)
-            { centralMeridian = _meridian; }
+        void setCentralMeridian(double _meridian);
 
     private:
+        std::vector<Core::LatLonCoords> _seams;
         Core::Coords<double> stretch, shift;
         double gap, centralMeridian;
 };
