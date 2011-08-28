@@ -35,8 +35,7 @@ Earth::Earth(Light* _light, Object* parent): Object(parent), light(_light), base
     /* Texture */
     texture.setMagnificationFilter(BaseTexture::Linear);
     texture.setMinificationFilter(BaseTexture::Linear);
-    texture.setWrapping(Magnum::Math::Vector2<BaseTexture::Wrapping>(BaseTexture::ClampToBorder, BaseTexture::ClampToBorder));
-    texture.setBorderColor(baseColor);
+    texture.setWrapping(Magnum::Math::Vector2<BaseTexture::Wrapping>(BaseTexture::ClampToEdge, BaseTexture::ClampToEdge));
 
     /* Texture coordinates buffer */
     textureCoordinates = icosphere.addBuffer(false);
