@@ -23,6 +23,7 @@ class Icosphere: public Magnum::IndexedMesh {
     public:
         Icosphere(size_t subdivisions);
 
+        /** @brief Buffer with icosphere vertices */
         inline Magnum::Buffer* vertexBuffer() const { return _vertexBuffer; }
 
         inline const std::vector<Magnum::Vector4>& vertices() const { return _vertices; }
