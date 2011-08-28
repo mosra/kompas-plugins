@@ -36,7 +36,7 @@ class Earth: public Magnum::Object {
     public:
         Earth(Magnum::Light* _light, Object* parent = 0);
 
-        virtual void draw(const Magnum::Matrix4& transformationMatrix, const Magnum::Matrix4& projectionMatrix);
+        void draw(const Magnum::Matrix4& transformationMatrix, const Magnum::Matrix4& projectionMatrix);
 
         void generateTextureCoordinates(const Core::AbstractProjection* projection);
 

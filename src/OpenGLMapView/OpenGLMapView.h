@@ -27,22 +27,22 @@ class OpenGLMapView: public QtGui::AbstractMapView {
     public:
         OpenGLMapView(PluginManager::AbstractPluginManager* manager = 0, const std::string& plugin = "");
 
-        virtual unsigned int zoom() const { return _zoom; }
-        virtual Core::LatLonCoords coords(const QPoint& pos = QPoint()) { return Core::LatLonCoords(); }
-        virtual Core::AbsoluteArea<double> viewedArea(const QRect& area = QRect()) { return Core::AbsoluteArea<double>(); }
-        virtual QString layer() const { return _layer; }
-        virtual QStringList overlays() const { return QStringList(); }
+        unsigned int zoom() const { return _zoom; }
+        Core::LatLonCoords coords(const QPoint& pos = QPoint()) { return Core::LatLonCoords(); }
+        Core::AbsoluteArea<double> viewedArea(const QRect& area = QRect()) { return Core::AbsoluteArea<double>(); }
+        QString layer() const { return _layer; }
+        QStringList overlays() const { return QStringList(); }
 
     public slots:
-        virtual void updateRasterModel();
-        virtual bool zoomIn(const QPoint& pos = QPoint()) { return false; }
-        virtual bool zoomOut(const QPoint& pos = QPoint()) { return false; }
-        virtual bool zoomTo(Core::Zoom zoom, const QPoint& pos = QPoint()) { return false; }
-        virtual bool setCoords(const Kompas::Core::LatLonCoords& coords, const QPoint& pos = QPoint()) { return false; }
-        virtual bool move(int x, int y);
-        virtual bool setLayer(const QString& layer);
-        virtual bool addOverlay(const QString& layer) { return false; }
-        virtual bool removeOverlay(const QString& overlay) { return false; }
+        void updateRasterModel();
+        bool zoomIn(const QPoint& pos = QPoint()) { return false; }
+        bool zoomOut(const QPoint& pos = QPoint()) { return false; }
+        bool zoomTo(Core::Zoom zoom, const QPoint& pos = QPoint()) { return false; }
+        bool setCoords(const Kompas::Core::LatLonCoords& coords, const QPoint& pos = QPoint()) { return false; }
+        bool move(int x, int y);
+        bool setLayer(const QString& layer);
+        bool addOverlay(const QString& layer) { return false; }
+        bool removeOverlay(const QString& overlay) { return false; }
 
     private:
         OpenGLMapViewPrivate* view;
@@ -50,9 +50,9 @@ class OpenGLMapView: public QtGui::AbstractMapView {
         QString _layer;
         Core::Zoom _zoom;
 
-        virtual void tileData(const QString& layer, Core::Zoom z, const Kompas::Core::TileCoords& coords, const QByteArray& data);
-        virtual void tileLoading(const QString& layer, Core::Zoom z, const Kompas::Core::TileCoords& coords) {}
-        virtual void tileNotFound(const QString& layer, Core::Zoom z, const Kompas::Core::TileCoords& coords) {}
+        void tileData(const QString& layer, Core::Zoom z, const Kompas::Core::TileCoords& coords, const QByteArray& data);
+        void tileLoading(const QString& layer, Core::Zoom z, const Kompas::Core::TileCoords& coords) {}
+        void tileNotFound(const QString& layer, Core::Zoom z, const Kompas::Core::TileCoords& coords) {}
 };
 
 }}

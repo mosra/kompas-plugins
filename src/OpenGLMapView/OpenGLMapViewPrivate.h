@@ -31,7 +31,7 @@ class OpenGLMapViewPrivate: public QGLWidget {
     public:
         OpenGLMapViewPrivate(QWidget* parent = 0, const QGLWidget* shareWidget = 0, Qt::WindowFlags f = 0);
 
-        virtual QSize minimumSizeHint() const;
+        QSize minimumSizeHint() const;
 
         Magnum::Scene scene;
         Magnum::Camera* camera;
@@ -39,13 +39,13 @@ class OpenGLMapViewPrivate: public QGLWidget {
         Earth* earth;
 
     protected:
-        virtual void initializeGL();
-        virtual void paintGL();
-        virtual void resizeGL(int w, int h);
+        void initializeGL();
+        void paintGL();
+        void resizeGL(int w, int h);
 
-        virtual void mousePressEvent(QMouseEvent* event);
-        virtual void mouseMoveEvent(QMouseEvent* event);
-        virtual void wheelEvent(QWheelEvent* event);
+        void mousePressEvent(QMouseEvent* event);
+        void mouseMoveEvent(QMouseEvent* event);
+        void wheelEvent(QWheelEvent* event);
 
     private:
         QPoint previousMouse;
