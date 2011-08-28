@@ -136,4 +136,11 @@ LatLonCoords StereographicProjection::toLatLon(const Coords<double>& coords) con
     return LatLonCoords(c.latitude(), longitude);
 }
 
+void StereographicProjection::setCentralMeridian(double _meridian) {
+    centralMeridian = _meridian;
+    _seams[0] = LatLonCoords(60, centralMeridian);
+    _seams[1] = LatLonCoords(0, centralMeridian);
+    _seams[2] = LatLonCoords(-60, centralMeridian);
+}
+
 }}
