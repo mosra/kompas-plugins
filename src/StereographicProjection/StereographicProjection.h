@@ -134,7 +134,7 @@ class StereographicProjection: public Core::AbstractProjection {
          * @brief Set central meridian
          *
          * By default the hemispheres are split on 0th meridian (Greenwich).
-         * Value is in radians, positive value is east, negative west.
+         * Value is in degrees, positive value is east, negative west.
          */
         inline void setCentralMeridian(double _meridian)
             { centralMeridian = _meridian; }

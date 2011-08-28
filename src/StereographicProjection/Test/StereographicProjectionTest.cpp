@@ -29,7 +29,7 @@ using namespace Kompas::Core;
 namespace Kompas { namespace Plugins { namespace Test {
 
 StereographicProjectionTest::StereographicProjectionTest(QObject* parent): QObject(parent) {
-     projection.setCentralMeridian(-10*PI/180);
+     projection.setCentralMeridian(-10);
      projection.setGap(0.13f);
      projection.setShift(Coords<double>(0.10f, 0.05f));
      projection.setStretch(Coords<double>(0.70f, 0.85f));

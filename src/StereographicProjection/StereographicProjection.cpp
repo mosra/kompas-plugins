@@ -29,7 +29,7 @@ PLUGIN_REGISTER(Kompas::Plugins::StereographicProjection,
 namespace Kompas { namespace Plugins {
 
 Coords<double> StereographicProjection::fromLatLon(const LatLonCoords& coords) const {
-    double longitude = coords.longitude()-centralMeridian*180/PI;
+    double longitude = coords.longitude()-centralMeridian;
 
     /* Get shifted longitude into limits */
     if(longitude < -180) longitude += 360;
@@ -126,7 +126,7 @@ LatLonCoords StereographicProjection::toLatLon(const Coords<double>& coords) con
     /* Calculate latitude and longitude (y and z is flipped), apply central
        meridian */
     LatLonCoords c = LatLonCoords::fromPointOnSphere(x, -y, -z);
-    longitude += c.longitude()+centralMeridian*180/PI;
+    longitude += c.longitude()+centralMeridian;
 
     /* Get shifted longitude into limits */
     if(longitude > 180) longitude -= 360;
