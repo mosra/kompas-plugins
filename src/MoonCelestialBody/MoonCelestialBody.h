@@ -31,9 +31,9 @@ class MoonCelestialBody: public Core::AbstractCelestialBody {
         /** @copydoc Core::AbstractCelestialBody::AbstractCelestialBody */
         MoonCelestialBody(PluginManager::AbstractPluginManager* manager = 0, const std::string& plugin = ""): AbstractCelestialBody(manager, plugin) {}
 
-        inline virtual double equatorialRadius() const { return  1738100; }
-        inline virtual double polarRadius() const { return 1736000; }
-        inline virtual double flattening() const { return 0.00121; }
+        inline double equatorialRadius() const { return  1738100; }
+        inline double polarRadius() const { return 1736000; }
+        inline double flattening() const { return 0.00121; }
 };
 
 }}
