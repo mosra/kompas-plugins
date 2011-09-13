@@ -33,7 +33,7 @@ class OpenGLMapViewPrivate: public QGLWidget {
 
         QSize minimumSizeHint() const;
 
-        Magnum::Scene scene;
+        Magnum::Scene* scene;
         Magnum::Camera* camera;
         Magnum::Light* light;
         Earth* earth;

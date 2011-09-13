@@ -41,26 +41,27 @@ QSize OpenGLMapViewPrivate::minimumSizeHint() const {
 void OpenGLMapViewPrivate::initializeGL() {
     glewInit();
 
-    scene.setClearColor(0.1f, 0.1f, 0.1f, 1);
+    scene = new Scene();
+    scene->setClearColor(0.1f, 0.1f, 0.1f, 1);
 
-    camera = new Camera(&scene);
+    camera = new Camera(scene);
     camera->setPerspective(35.0f*PI/180, 0.001f, 100);
     camera->translate(0, 0, 3.5f);
-    scene.setCamera(camera);
-    scene.setFeature(Scene::DepthTest, true);
+    scene->setCamera(camera);
+    scene->setFeature(Scene::DepthTest, true);
 
-    light = new Light(&scene);
+    light = new Light(scene);
     light->translate(-15, 15, 60);
 
-    earth = new Earth(light, &scene);
+    earth = new Earth(light, scene);
 }
 
 void OpenGLMapViewPrivate::resizeGL(int width, int height) {
-    scene.setViewport(width, height);
+    scene->setViewport(width, height);
 }
 
 void OpenGLMapViewPrivate::paintGL() {
-    scene.draw();
+    scene->draw();
 }
 
 void OpenGLMapViewPrivate::mousePressEvent(QMouseEvent* event) {
