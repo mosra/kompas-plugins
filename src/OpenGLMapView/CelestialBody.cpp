@@ -13,7 +13,7 @@
     GNU Lesser General Public License version 3 for more details.
 */
 
-#include "Earth.h"
+#include "CelestialBody.h"
 #include "Light.h"
 #include "AbstractProjection.h"
 #include "AbstractRasterModel.h"
@@ -27,10 +27,10 @@ using namespace Kompas::QtGui;
 
 namespace Kompas { namespace Plugins {
 
-Earth::Earth(Light* _light, Object* parent): Object(parent), light(_light), baseColor(1.0f, 1.0f, 0.8f) {
+CelestialBody::CelestialBody(Light* _light, Object* parent): Object(parent), light(_light), baseColor(1.0f, 1.0f, 0.8f) {
 
     /* Bind shader attribute to the buffer */
-    icosphere.bindAttribute<Vector4>(icosphere.vertexBuffer(), EarthShader::Vertex);
+    icosphere.bindAttribute<Vector4>(icosphere.vertexBuffer(), CelestialBodyShader::Vertex);
 
     /* Texture */
     texture.setMagnificationFilter(BaseTexture::Linear);
@@ -39,10 +39,10 @@ Earth::Earth(Light* _light, Object* parent): Object(parent), light(_light), base
 
     /* Texture coordinates buffer */
     textureCoordinates = icosphere.addBuffer(false);
-    icosphere.bindAttribute<Vector2>(textureCoordinates, EarthShader::TextureCoordinates);
+    icosphere.bindAttribute<Vector2>(textureCoordinates, CelestialBodyShader::TextureCoordinates);
 }
 
-void Earth::generateTextureCoordinates(const AbstractProjection* projection) {
+void CelestialBody::generateTextureCoordinates(const AbstractProjection* projection) {
     /* Create seam planes from projection */
     vector<LatLonCoords> s = projection->seams();
     double x, y, z;
@@ -113,7 +113,7 @@ void Earth::generateTextureCoordinates(const AbstractProjection* projection) {
     delete coordinates;
 }
 
-void Earth::draw(const Matrix4& transformationMatrix, const Matrix4& projectionMatrix) {
+void CelestialBody::draw(const Matrix4& transformationMatrix, const Matrix4& projectionMatrix) {
     texture.bind();
 
     shader.use();

@@ -19,7 +19,7 @@
 #include <QtGui/QHBoxLayout>
 
 #include "TileDataThread.h"
-#include "Earth.h"
+#include "CelestialBody.h"
 #include "MainWindow.h"
 
 PLUGIN_REGISTER(Kompas::Plugins::OpenGLMapView,
@@ -49,7 +49,7 @@ void OpenGLMapView::updateRasterModel() {
 
     /* The only possible way to call initializeGL. Hope the blind draw wouldn't
        do any harm. */
-    if(!view->earth) view->updateGL();
+    if(!view->celestialBody) view->updateGL();
 
     /* Reset zoom and layer */
     _zoom = pow2(31);
@@ -58,7 +58,7 @@ void OpenGLMapView::updateRasterModel() {
     /* Generate texture coordinates, get default model layer and zoom */
     Locker<const AbstractRasterModel> rasterModel = MainWindow::instance()->rasterModelForRead();
     if(rasterModel()->projection())
-        view->earth->generateTextureCoordinates(rasterModel()->projection());
+        view->celestialBody->generateTextureCoordinates(rasterModel()->projection());
     area = rasterModel()->area();
     _zoom = *rasterModel()->zoomLevels().begin();
     QString layer = QString::fromStdString(rasterModel()->layers()[0]);
@@ -69,16 +69,16 @@ void OpenGLMapView::updateRasterModel() {
 }
 
 bool OpenGLMapView::move(int x, int y) {
-    if(!isReady() || !view->earth) return false;
+    if(!isReady() || !view->celestialBody) return false;
 
     /* Jumpy skips, currently cannot move exactly given distance */
     if(x != 0) {
-        if(x < 0) view->earth->rotate(PI/20, Vector3::yAxis(), false);
-        else view->earth->rotate(-PI/20, Vector3::yAxis(), false);
+        if(x < 0) view->celestialBody->rotate(PI/20, Vector3::yAxis(), false);
+        else view->celestialBody->rotate(-PI/20, Vector3::yAxis(), false);
     }
     if(y != 0) {
-        if(y < 0) view->earth->rotate(PI/20, Vector3::xAxis());
-        else view->earth->rotate(-PI/20, Vector3::xAxis());
+        if(y < 0) view->celestialBody->rotate(PI/20, Vector3::xAxis());
+        else view->celestialBody->rotate(-PI/20, Vector3::xAxis());
     }
 
     view->updateGL();
@@ -86,7 +86,7 @@ bool OpenGLMapView::move(int x, int y) {
 }
 
 bool OpenGLMapView::setLayer(const QString& layer) {
-    if(!isReady() || !view->earth) return false;
+    if(!isReady() || !view->celestialBody) return false;
 
     if(_layer == layer) return true;
 
@@ -102,7 +102,7 @@ bool OpenGLMapView::setLayer(const QString& layer) {
 void OpenGLMapView::tileData(const QString& layer, Core::Zoom z, const Kompas::Core::TileCoords& coords, const QByteArray& data) {
     /* Set texture from given data */
     /** @todo Compose texture from all tiles */
-    view->earth->texture.setTexture(QImage::fromData(data));
+    view->celestialBody->texture.setTexture(QImage::fromData(data));
 
     view->updateGL();
 }

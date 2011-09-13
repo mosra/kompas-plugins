@@ -1,5 +1,5 @@
-#ifndef Kompas_Plugins_EarthShader_h
-#define Kompas_Plugins_EarthShader_h
+#ifndef Kompas_Plugins_CelestialBodyShader_h
+#define Kompas_Plugins_CelestialBodyShader_h
 /*
     Copyright © 2007, 2008, 2009, 2010, 2011 Vladimír Vondruš <mosra@centrum.cz>
 
@@ -19,14 +19,14 @@
 
 namespace Kompas { namespace Plugins {
 
-class EarthShader: public Magnum::AbstractShaderProgram {
+class CelestialBodyShader: public Magnum::AbstractShaderProgram {
     public:
         enum Attribute {
             Vertex,
             TextureCoordinates
         };
 
-        EarthShader();
+        CelestialBodyShader();
 
         inline void setLightUniform(const Magnum::Vector3& _light) {
             setUniform(light, _light);

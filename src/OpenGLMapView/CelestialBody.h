@@ -1,5 +1,5 @@
-#ifndef Kompas_Plugins_Earth_h
-#define Kompas_Plugins_Earth_h
+#ifndef Kompas_Plugins_CelestialBody_h
+#define Kompas_Plugins_CelestialBody_h
 /*
     Copyright © 2007, 2008, 2009, 2010, 2011 Vladimír Vondruš <mosra@centrum.cz>
 
@@ -16,7 +16,7 @@
 */
 
 #include "Object.h"
-#include "EarthShader.h"
+#include "CelestialBodyShader.h"
 #include "BaseTexture.h"
 #include "Icosphere.h"
 
@@ -32,9 +32,9 @@ namespace Core {
 
 namespace Plugins {
 
-class Earth: public Magnum::Object {
+class CelestialBody: public Magnum::Object {
     public:
-        Earth(Magnum::Light* _light, Object* parent = 0);
+        CelestialBody(Magnum::Light* _light, Object* parent = 0);
 
         void draw(const Magnum::Matrix4& transformationMatrix, const Magnum::Matrix4& projectionMatrix);
 
@@ -43,7 +43,7 @@ class Earth: public Magnum::Object {
         BaseTexture texture;
 
     private:
-        EarthShader shader;
+        CelestialBodyShader shader;
         Icosphere icosphere;
         Magnum::Light* light;
         Magnum::Vector3 baseColor;

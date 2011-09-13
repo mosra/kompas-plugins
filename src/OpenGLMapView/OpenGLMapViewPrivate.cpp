@@ -18,7 +18,7 @@
 #include <QtGui/QMouseEvent>
 
 #include "Light.h"
-#include "Earth.h"
+#include "CelestialBody.h"
 #include "MainWindow.h"
 
 using namespace Magnum;
@@ -27,7 +27,7 @@ using namespace Kompas::QtGui;
 
 namespace Kompas { namespace Plugins {
 
-OpenGLMapViewPrivate::OpenGLMapViewPrivate(QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f): QGLWidget(QGLFormat(QGL::DoubleBuffer|QGL::Rgba|QGL::StencilBuffer|QGL::DepthBuffer), parent), earth(0) {
+OpenGLMapViewPrivate::OpenGLMapViewPrivate(QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f): QGLWidget(QGLFormat(QGL::DoubleBuffer|QGL::Rgba|QGL::StencilBuffer|QGL::DepthBuffer), parent), celestialBody(0) {
     /** @todo Is this really working? */
     QGLFormat fmt = format();
     fmt.setProfile(QGLFormat::CoreProfile);
@@ -54,7 +54,7 @@ void OpenGLMapViewPrivate::initializeGL() {
     light = new Light(scene);
     light->translate(-15, 15, 60);
 
-    earth = new Earth(light, scene);
+    celestialBody = new CelestialBody(light, scene);
 }
 
 void OpenGLMapViewPrivate::resizeGL(int width, int height) {
@@ -78,8 +78,8 @@ void OpenGLMapViewPrivate::mouseMoveEvent(QMouseEvent* event) {
         -asin(static_cast<double>(previousMouse.y())/height()-0.5);
 
     /* Rotate and save current mouse position */
-    earth->rotate(yAngle, Vector3::yAxis(), false);
-    earth->rotate(xAngle, Vector3::xAxis());
+    celestialBody->rotate(yAngle, Vector3::yAxis(), false);
+    celestialBody->rotate(xAngle, Vector3::xAxis());
     previousMouse = event->pos();
 
     updateGL();

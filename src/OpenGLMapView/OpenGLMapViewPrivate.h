@@ -25,7 +25,7 @@ namespace Magnum {
 
 namespace Kompas { namespace Plugins {
 
-class Earth;
+class CelestialBody;
 
 class OpenGLMapViewPrivate: public QGLWidget {
     public:
@@ -36,7 +36,7 @@ class OpenGLMapViewPrivate: public QGLWidget {
         Magnum::Scene* scene;
         Magnum::Camera* camera;
         Magnum::Light* light;
-        Earth* earth;
+        CelestialBody* celestialBody;
 
     protected:
         void initializeGL();

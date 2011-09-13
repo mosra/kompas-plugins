@@ -13,7 +13,7 @@
     GNU Lesser General Public License version 3 for more details.
 */
 
-#include "EarthShader.h"
+#include "CelestialBodyShader.h"
 
 #include "Utility/Resource.h"
 
@@ -22,10 +22,10 @@ using namespace Magnum;
 
 namespace Kompas { namespace Plugins {
 
-EarthShader::EarthShader() {
+CelestialBodyShader::CelestialBodyShader() {
     Resource r("OpenGLMapView");
-    Shader* vertexShader = Shader::fromData(Shader::Vertex, r.get("EarthShader.vert"));
-    Shader* fragmentShader = Shader::fromData(Shader::Fragment, r.get("EarthShader.frag"));
+    Shader* vertexShader = Shader::fromData(Shader::Vertex, r.get("CelestialBodyShader.vert"));
+    Shader* fragmentShader = Shader::fromData(Shader::Fragment, r.get("CelestialBodyShader.frag"));
 
     attachShader(vertexShader);
     attachShader(fragmentShader);
