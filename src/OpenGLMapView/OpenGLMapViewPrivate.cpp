@@ -28,13 +28,14 @@ using namespace Kompas::QtGui;
 namespace Kompas { namespace Plugins {
 
 OpenGLMapViewPrivate::OpenGLMapViewPrivate(QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f): QGLWidget(QGLFormat(QGL::DoubleBuffer|QGL::Rgba|QGL::StencilBuffer|QGL::DepthBuffer), parent), earth(0) {
+    /** @todo Is this really working? */
     QGLFormat fmt = format();
     fmt.setProfile(QGLFormat::CoreProfile);
-
     setFormat(fmt);
 }
 
 QSize OpenGLMapViewPrivate::minimumSizeHint() const {
+    /* Prevent crashes when rendering to zero size context */
     return QSize(50, 50);
 }
 
@@ -70,14 +71,15 @@ void OpenGLMapViewPrivate::mousePressEvent(QMouseEvent* event) {
 
 void OpenGLMapViewPrivate::mouseMoveEvent(QMouseEvent* event) {
     /** @todo Clamp to (-1, 1) */
+    /** @todo More precise rotation, based on mouse position relative to planet */
     double yAngle = asin(static_cast<double>(event->x())/width()-0.5)
         -asin(static_cast<double>(previousMouse.x())/width()-0.5);
     double xAngle = asin(static_cast<double>(event->y())/height()-0.5)
         -asin(static_cast<double>(previousMouse.y())/height()-0.5);
 
+    /* Rotate and save current mouse position */
     earth->rotate(yAngle, Vector3::yAxis(), false);
     earth->rotate(xAngle, Vector3::xAxis());
-
     previousMouse = event->pos();
 
     updateGL();
@@ -89,9 +91,11 @@ void OpenGLMapViewPrivate::wheelEvent(QWheelEvent* event) {
     /* Distance between the planet (unit size) and near camera clipping plane */
     GLfloat distance = camera->transformation().at(3).z()-1-camera->near();
 
-    if(event->delta() > 0) distance *= 1 - 1/0.85f;
-    else distance *= 1 - 0.85f;
-
+    /* Move 15% of the distance back or forward */
+    if(event->delta() > 0)
+        distance *= 1 - 1/0.85f;
+    else
+        distance *= 1 - 0.85f;
     camera->translate(0, 0, distance);
 
     updateGL();

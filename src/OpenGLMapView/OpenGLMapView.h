@@ -21,6 +21,12 @@ namespace Kompas { namespace Plugins {
 
 class OpenGLMapViewPrivate;
 
+/**
+@brief 3D OpenGL view of the map
+
+Currently supports only loading tile from base zoom, zooming with mouse wheel
+and dragging the view via mouse.
+*/
 class OpenGLMapView: public QtGui::AbstractMapView {
     Q_OBJECT
 

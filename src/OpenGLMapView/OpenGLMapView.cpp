@@ -33,12 +33,14 @@ using namespace Magnum;
 namespace Kompas { namespace Plugins {
 
 OpenGLMapView::OpenGLMapView(PluginManager::AbstractPluginManager* manager, const std::string& plugin): AbstractMapView(manager, plugin) {
+    /* Wrapping layout around actual OpenGL widget */
     view = new OpenGLMapViewPrivate;
     QHBoxLayout* layout = new QHBoxLayout;
     layout->addWidget(view);
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
 
+    /* Setup the view */
     updateRasterModel();
 }
 
@@ -49,9 +51,11 @@ void OpenGLMapView::updateRasterModel() {
        do any harm. */
     if(!view->earth) view->updateGL();
 
+    /* Reset zoom and layer */
     _zoom = pow2(31);
     _layer.clear();
 
+    /* Generate texture coordinates, get default model layer and zoom */
     Locker<const AbstractRasterModel> rasterModel = MainWindow::instance()->rasterModelForRead();
     if(rasterModel()->projection())
         view->earth->generateTextureCoordinates(rasterModel()->projection());
@@ -60,24 +64,24 @@ void OpenGLMapView::updateRasterModel() {
     QString layer = QString::fromStdString(rasterModel()->layers()[0]);
     rasterModel.unlock();
 
+    /* Set map layer */
     setLayer(layer);
 }
 
 bool OpenGLMapView::move(int x, int y) {
     if(!isReady() || !view->earth) return false;
 
+    /* Jumpy skips, currently cannot move exactly given distance */
     if(x != 0) {
         if(x < 0) view->earth->rotate(PI/20, Vector3::yAxis(), false);
         else view->earth->rotate(-PI/20, Vector3::yAxis(), false);
     }
-
     if(y != 0) {
         if(y < 0) view->earth->rotate(PI/20, Vector3::xAxis());
         else view->earth->rotate(-PI/20, Vector3::xAxis());
     }
 
     view->updateGL();
-
     return true;
 }
 
@@ -86,7 +90,9 @@ bool OpenGLMapView::setLayer(const QString& layer) {
 
     if(_layer == layer) return true;
 
+    /* Set layer and get tile data */
     _layer = layer;
+    /** @todo Get tile data for whole visible area, not just left top tile */
     tileDataThread->getTileData(_layer, _zoom, TileCoords(area.x, area.y));
 
     emit layerChanged(_layer);
@@ -94,7 +100,10 @@ bool OpenGLMapView::setLayer(const QString& layer) {
 }
 
 void OpenGLMapView::tileData(const QString& layer, Core::Zoom z, const Kompas::Core::TileCoords& coords, const QByteArray& data) {
+    /* Set texture from given data */
+    /** @todo Compose texture from all tiles */
     view->earth->texture.setTexture(QImage::fromData(data));
+
     view->updateGL();
 }
 
