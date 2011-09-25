@@ -198,6 +198,7 @@ void FilesystemCache::purge() {
     _entries.clear();
     _files.clear();
     _position = 0;
+    _usedBlockCount = 0;
 
     optimize();
 }
@@ -315,6 +316,7 @@ bool FilesystemCache::set(const std::string& key, const std::string& data) {
     } else {
         if(!reserveSpace(data.size())) return false;
 
+        _usedBlockCount += blockCount(data.size());
         _files.insert(pair<Sha1::Digest, unsigned int>(sha1, 1u));
 
         if(!Directory::mkpath(filePath(sha1))) return false;

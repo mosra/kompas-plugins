@@ -36,9 +36,11 @@ void FilesystemCacheTest::save() {
     cache.setBlockSize(5);
     cache.setCacheSize(15);
     cache.initializeCache(FILESYSTEMCACHE_WRITE_TEST_DIR);
+    cache.set("0", "dataToBeRemoved");
     cache.set("a", "data1");
     cache.set("b", "data02");
     cache.set("c", "data1");
+    QVERIFY(cache.usedSize() == 15);
     QVERIFY(cache.get("b") == "data02");
     cache.finalizeCache();
 
@@ -103,6 +105,8 @@ void FilesystemCacheTest::purge() {
     Cache cache;
     cache.initializeCache(FILESYSTEMCACHE_WRITE_TEST_DIR);
     cache.purge();
+
+    QVERIFY(cache.usedSize() == 0);
 
     QVERIFY(!dir.exists(QString::fromStdString(Directory::join(FILESYSTEMCACHE_WRITE_TEST_DIR, "cb"))));
 }
